@@ -52,12 +52,12 @@ namespace CoinListingScraper.ScraperService.Services
                 //JsonHelper.WriteCoinToJsonFile(coinListing);
                 //coinListings.Add(coinListing);
                 var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
-                Console.WriteLine(msg);
+                //Console.WriteLine(msg);
                 //await _discordService.Announce(msg);
                 return coinListing;
             }
 
-            Console.WriteLine("No new coin found, trying again in 60 seconds");
+            //Console.WriteLine("No new coin found, trying again in 60 seconds");
             return null;
         }
     }
