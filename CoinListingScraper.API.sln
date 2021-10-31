@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinListingScraper.Applicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinListingScraper.UnitTests", "CoinListingScraper.UnitTests\CoinListingScraper.UnitTests.csproj", "{AEF40A29-25B9-45D5-A7FD-E5FD7DA18F08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinListingScraper.ScraperService", "CoinListingScraper.ScraperService\CoinListingScraper.ScraperService.csproj", "{227DE843-3374-4BD6-BA1E-AAC21ACDAC0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinListingScraper.ScraperService", "CoinListingScraper.ScraperService\CoinListingScraper.ScraperService.csproj", "{227DE843-3374-4BD6-BA1E-AAC21ACDAC0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinListingScraper.DiscordAnnouncer", "CoinListingScraper.DiscordAnnouncer\CoinListingScraper.DiscordAnnouncer.csproj", "{1B592975-1B44-4DC8-BB66-21357F2D5F0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinListingScraper.DiscordAnnouncer", "CoinListingScraper.DiscordAnnouncer\CoinListingScraper.DiscordAnnouncer.csproj", "{1B592975-1B44-4DC8-BB66-21357F2D5F0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinListingScraper.GateIOService", "CoinListingScraper.GateIOService\CoinListingScraper.GateIOService.csproj", "{806E9AAF-5453-4708-8C0F-8FB17136AD37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{1B592975-1B44-4DC8-BB66-21357F2D5F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B592975-1B44-4DC8-BB66-21357F2D5F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B592975-1B44-4DC8-BB66-21357F2D5F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806E9AAF-5453-4708-8C0F-8FB17136AD37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806E9AAF-5453-4708-8C0F-8FB17136AD37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806E9AAF-5453-4708-8C0F-8FB17136AD37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806E9AAF-5453-4708-8C0F-8FB17136AD37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
