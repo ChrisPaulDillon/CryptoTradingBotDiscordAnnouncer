@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using CoinListingScraper.ScraperService.Models;
+using CoinListingScraper.ScraperService.Services;
 using MediatR;
 
 namespace CoinListingScraper.Application.Queries
 {
-    public class GetCoinBaseScrapeQuery : IRequest<bool>
+    public class GetCoinBaseScrapeQuery : IRequest<CoinBaseArticle>
     {
 
     }
 
-    public class GetCoinBaseScrapeQueryHandler : IRequestHandler<GetCoinBaseScrapeQuery, bool>
+    public class GetCoinBaseScrapeQueryHandler : IRequestHandler<GetCoinBaseScrapeQuery, CoinBaseArticle>
     {
-        public GetCoinBaseScrapeQueryHandler()
+        private readonly IScraperService _scraperService;
+
+        public GetCoinBaseScrapeQueryHandler(IScraperService scraperService)
         {
-           
+            _scraperService = scraperService;
         }
 
-        public async Task<bool> Handle(GetCoinBaseScrapeQuery request, CancellationToken cancellationToken)
+        public async Task<CoinBaseArticle> Handle(GetCoinBaseScrapeQuery request, CancellationToken cancellationToken)
         {
-            return true;
-            // return await _exerciseRepo.GetAllExercises();
+            var result = await _scraperService.GetLatestCoinBaseArticle();
+            return result;
         }
     }
 }

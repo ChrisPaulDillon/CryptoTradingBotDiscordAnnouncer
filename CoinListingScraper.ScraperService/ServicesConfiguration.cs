@@ -5,7 +5,7 @@ namespace CoinListingScraper.ScraperService
 {
     public static class ServicesConfiguration
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection AddScraperServices(this IServiceCollection services)
         {
             services.AddScoped<IScraperService, Services.ScraperService>();
 
