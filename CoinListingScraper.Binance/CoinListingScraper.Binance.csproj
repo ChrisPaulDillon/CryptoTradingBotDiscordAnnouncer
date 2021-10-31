@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="106.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoinListingScraper.CoinGecko\CoinListingScraper.CoinGecko.csproj" />
+    <ProjectReference Include="..\CoinListingScraper.Data\CoinListingScraper.Data.csproj" />
+  </ItemGroup>
+
+</Project>
