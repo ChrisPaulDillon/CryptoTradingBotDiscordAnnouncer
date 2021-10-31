@@ -13,4 +13,8 @@
     <Folder Include="Commands\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CoinListingScraper.ScraperService\CoinListingScraper.ScraperService.csproj" />
+  </ItemGroup>
+
 </Project>

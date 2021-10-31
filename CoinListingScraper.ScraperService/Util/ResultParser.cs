@@ -21,9 +21,7 @@ namespace CoinListingScraper.ScraperService.Util
             var tokenName = listOfWords[0]; //Get the name of token straight after the word 'List'
             var ticker = Regex.Match(secondHalf, @"\(([^)]*)\)").Groups[1].Value; //Get ticker in brackets if available
 
-            if (
-                string.IsNullOrEmpty(
-                    ticker)) //The original API request could not get the ticker, attempt to get it from coingecko
+            if (string.IsNullOrEmpty(ticker)) //The original API request could not get the ticker, attempt to get it from coingecko
             {
                 ticker = CoinGeckoHelper.GetCoinTicker(tokenName.ToLower());
                 ticker = ticker.ToUpper();

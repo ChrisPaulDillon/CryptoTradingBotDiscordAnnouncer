@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using CoinListingScraper.ScraperService.Models;
+using CoinListingScraper.ScraperService.Util;
 using RestSharp;
 
 namespace CoinListingScraper.ScraperService.Services
@@ -19,12 +22,34 @@ namespace CoinListingScraper.ScraperService.Services
             return response;
         }
 
-        public async Task<BinanceArticle> GetLatestBinanceArticle()
+        public async Task<CoinListing> GetLatestBinanceArticle()
         {
             Client = new RestClient(CoinBaseApiBase);
             var request = new RestRequest("composite/v1/public/cms/article/catalog/list/query?catalogId=48&pageNo=1&pageSize=15", DataFormat.Json);
             var response = await Client.GetAsync<BinanceArticle>(request);
-            return response;
+
+            var latestArticle = response.data.articles.Where(x => x.title.Contains("List")).Select(x => x.title).FirstOrDefault(); //Get the latest article title
+            var coinListing = ResultParser.ExtractCoinFromBinanceArticle(latestArticle);
+
+            if (coinListing != null) //Found a new coin listing, write to disk
+            {
+                //var coinInCollection = coinListings.Any(x => x.Name == coinListing.Name);
+                //if (coinInCollection)
+                //{
+                //    Console.WriteLine("Coin found has already been stored");
+                //    return;
+                //}
+
+                //JsonHelper.WriteCoinToJsonFile(coinListing);
+                //coinListings.Add(coinListing);
+                var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
+                Console.WriteLine(msg);
+                //await _discordService.Announce(msg);
+                return coinListing;
+            }
+
+            Console.WriteLine("No new coin found, trying again in 60 seconds");
+            return null;
         }
     }
 }
