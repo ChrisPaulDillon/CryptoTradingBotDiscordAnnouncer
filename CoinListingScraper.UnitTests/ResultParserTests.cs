@@ -1,44 +1,44 @@
-﻿using CoinListingScraper.Binance;
+﻿using CoinListingScraper.ScraperService.Util;
 using Xunit;
 
 namespace CoinListingScraper.UnitTests
 {
-    public class TokenHelperTests
+    public class ResultParserTests
     {
         [Fact]
-        public void ExtractCoinFromArticle_TextDoesNotContainList_ReturnsNull()
+        public void ExtractCoinFromBinanceArticle_TextDoesNotContainList_ReturnsNull()
         {
             // arrange
             var articleText = "test lmao rofl";
 
             // act
-            var result = TokenHelper.ExtractCoinFromArticle(articleText);
+            var result = ResultParser.ExtractCoinFromBinanceArticle(articleText);
 
             // assert
             Assert.Null(result);
         }
 
         [Fact]
-        public void ExtractCoinFromArticle_TextContainsListInWord_ReturnsNull()
+        public void ExtractCoinFromBinanceArticle_TextContainsListInWord_ReturnsNull()
         {
             // arrange
             var articleText = "listless test";
 
             // act
-            var result = TokenHelper.ExtractCoinFromArticle(articleText);
+            var result = ResultParser.ExtractCoinFromBinanceArticle(articleText);
 
             // assert
             Assert.Null(result);
         }
 
         [Fact]
-        public void ExtractCoinFromArticle_TextContainsListAndTicker_ReturnsCoinListing()
+        public void ExtractCoinFromBinanceArticle_TextContainsListAndTicker_ReturnsCoinListing()
         {
             // arrange
             var articleText = "Binance Will List Tranchess (CHESS) in the Innovation Zone";
 
             // act
-            var result = TokenHelper.ExtractCoinFromArticle(articleText);
+            var result = ResultParser.ExtractCoinFromBinanceArticle(articleText);
 
             // assert
             Assert.Equal("Tranchess", result.Name);
@@ -46,13 +46,13 @@ namespace CoinListingScraper.UnitTests
         }
 
         [Fact]
-        public void ExtractCoinFromArticle_TextContainsJustName_ReturnsCoinListing()
+        public void ExtractCoinFromBinanceArticle_TextContainsJustName_ReturnsCoinListing()
         {
             // arrange
             var articleText = "Binance Will List Tranchess Innovation Zone";
 
             // act
-            var result = TokenHelper.ExtractCoinFromArticle(articleText);
+            var result = ResultParser.ExtractCoinFromBinanceArticle(articleText);
 
             // assert
             Assert.Equal("Tranchess", result.Name);

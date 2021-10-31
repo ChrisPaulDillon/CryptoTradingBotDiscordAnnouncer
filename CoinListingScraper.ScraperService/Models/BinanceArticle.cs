@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace CoinListingScraper.Data.Entities
+namespace CoinListingScraper.ScraperService.Models
 {
     public class Article
     {
@@ -20,7 +22,7 @@ namespace CoinListingScraper.Data.Entities
         public int total { get; set; }
     }
 
-    public class Root
+    public class BinanceArticle
     {
         public string code { get; set; }
         public object message { get; set; }

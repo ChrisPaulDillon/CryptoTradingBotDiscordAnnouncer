@@ -13,8 +13,4 @@
     <Folder Include="Commands\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CoinListingScraper.Coinbase\CoinListingScraper.Coinbase.csproj" />
-  </ItemGroup>
-
 </Project>

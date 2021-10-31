@@ -1,4 +1,4 @@
-﻿using CoinListingScraper.Data.Entities;
+﻿using CoinListingScraper.CoinGecko.Models;
 using RestSharp;
 
 namespace CoinListingScraper.CoinGecko

@@ -1,4 +1,4 @@
-﻿namespace CoinListingScraper.Data.Entities
+﻿namespace CoinListingScraper.ScraperService.Models
 {
     public class CoinListing
     {

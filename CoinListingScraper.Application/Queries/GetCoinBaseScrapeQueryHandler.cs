@@ -21,7 +21,8 @@ namespace CoinListingScraper.Application.Queries
 
         public async Task<bool> Handle(GetCoinBaseScrapeQuery request, CancellationToken cancellationToken)
         {
-            return await _exerciseRepo.GetAllExercises();
+            return true;
+            // return await _exerciseRepo.GetAllExercises();
         }
     }
 }

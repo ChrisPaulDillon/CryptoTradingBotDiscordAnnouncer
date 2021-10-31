@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoinListingScraper.CoinGecko\CoinListingScraper.CoinGecko.csproj" />
-    <ProjectReference Include="..\CoinListingScraper.Data\CoinListingScraper.Data.csproj" />
   </ItemGroup>
 
 </Project>
