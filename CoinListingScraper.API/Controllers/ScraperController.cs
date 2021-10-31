@@ -17,9 +17,16 @@ namespace CoinListingScraper.API.Controllers
         }
 
         [HttpGet("CoinBase")]
-        public async Task<IActionResult> GetCoinBaseLatestArticle()
+        public async Task<IActionResult> GetCoinBaseLatestListing()
         {
             var coinBaseArticle = await _mediator.Send(new GetCoinBaseScrapeQuery());
+            return Ok(coinBaseArticle);
+        }
+
+        [HttpGet("Binance")]
+        public async Task<IActionResult> GetBinanceLatestListing()
+        {
+            var coinBaseArticle = await _mediator.Send(new GetBinanceScrapeQuery());
             return Ok(coinBaseArticle);
         }
     }

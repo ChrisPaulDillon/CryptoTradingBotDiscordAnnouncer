@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using CoinListingScraper.ScraperService.Models;
 using CoinListingScraper.ScraperService.Services;
 using MediatR;
 using System.Collections.Generic;
