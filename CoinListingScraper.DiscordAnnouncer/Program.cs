@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CoinListingScraper.ScraperService;
 using CoinListingScraper.ScraperService.Models;
@@ -11,7 +10,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 {
     internal class Program
     {
-        private static IList<CoinListing> coinListings = new List<CoinListing>(); //Store a collection of coinListings in memory to prevent additional write operations
+        private static IDictionary<string, CoinListing> coinListings = new Dictionary<string, CoinListing>(); //Store a collection of coinListings in memory to prevent additional write operations
 
         private DiscordHelper _discordService;
 
@@ -53,16 +52,15 @@ namespace CoinListingScraper.DiscordAnnouncer
         private async Task PollBinanceApi()
         {
             var coinListing = await _scraperService.GetLatestBinanceArticle();
-       
-            var coinInCollection = coinListings.Any(x => x.Name == coinListing.Name);
-            if (coinInCollection)
+            
+            if(coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
             {
                 Console.WriteLine("Coin found has already been stored");
                 return;
             }
 
             JsonHelper.WriteCoinToJsonFile(coinListing);
-            coinListings.Add(coinListing);
+            coinListings.Add(coinListing.Ticker, coinListing);
             var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
             await _discordService.Announce(msg);

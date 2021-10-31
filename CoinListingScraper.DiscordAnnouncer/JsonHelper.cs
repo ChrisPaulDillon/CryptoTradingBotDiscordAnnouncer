@@ -12,27 +12,29 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         public static void WriteCoinToJsonFile(CoinListing coinListing)
         {
-            var coinList = new List<CoinListing> { coinListing }; //Add the list to ensure correct formatting
-
+            var coinList = new Dictionary<string, CoinListing>
+            {
+                { coinListing.Ticker, coinListing }
+            };
             var json = JsonSerializer.Serialize(coinList);
             File.WriteAllText(coinPath, json);
         }
 
-        public static IList<CoinListing> LoadPreviouslyFoundCoins()
+        public static IDictionary<string, CoinListing> LoadPreviouslyFoundCoins()
         {
             try
             {
                 using (StreamReader r = new StreamReader(coinPath))
                 {
                     string json = r.ReadToEnd();
-                    var coinListings = JsonSerializer.Deserialize<List<CoinListing>>(json);
+                    var coinListings = JsonSerializer.Deserialize<Dictionary<string, CoinListing>>(json);
                     return coinListings;
                 }
             }
-            catch(Exception ex)
+            catch
             {
                 Console.WriteLine("No coin file currently exists lmao");
-                return new List<CoinListing>();
+                return new Dictionary<string, CoinListing>();
             }
         }
     }
