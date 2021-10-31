@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CoinListingScraper.ScraperService.Models;
 using CoinListingScraper.ScraperService.Util;
-using Newtonsoft.Json;
 using RestSharp;
 
 namespace CoinListingScraper.ScraperService.Services
@@ -21,7 +19,7 @@ namespace CoinListingScraper.ScraperService.Services
         public async Task<IEnumerable<string>> GetLatestCoinBaseArticle()
         {
             WebClient client = new WebClient();
-            string downloadString = client.DownloadString("https://medium.com/_/api/collections/c114225aeaf7/latest");
+            var downloadString = client.DownloadString("https://medium.com/_/api/collections/c114225aeaf7/latest");
             //string code = downloadString.Substring(42);
             //var codeSecondRemoved = code.Substring(0, code.Length - 32);
             //var article = JsonConvert.DeserializeObject<CoinBaseArticle>(codeSecondRemoved);
