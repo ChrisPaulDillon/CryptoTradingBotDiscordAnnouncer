@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using CoinListingScraper.ScraperService;
 using CoinListingScraper.ScraperService.Models;
 using CoinListingScraper.ScraperService.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedLibraries.SmsService.Extensions;
 
 namespace CoinListingScraper.DiscordAnnouncer
 {
@@ -24,8 +26,16 @@ namespace CoinListingScraper.DiscordAnnouncer
             Console.WriteLine("Loading up...");
             coinListings = JsonHelper.LoadPreviouslyFoundCoins();
 
+            var builder = new ConfigurationBuilder()
+                .AddUserSecrets<Config>()
+                .AddEnvironmentVariables();
+
+            var configuration = builder.Build();
+            var myConnString = configuration.GetConnectionString("TwilioSID");
+
             var serviceProvider = new ServiceCollection()
                 .AddScraperServices()
+                //.AddSmsServices("test", "")
                 .BuildServiceProvider();
 
            _scraperService = serviceProvider.GetService<IScraperService>();
@@ -46,10 +56,18 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         async void TimerProc(object state)
         {
-            Console.WriteLine("Polling Binance API...");
-            await PollBinanceApi();
-            Console.WriteLine("Polling CoinBase API...");
-            await PollCoinBaseApi();
+            try
+            {
+                Console.WriteLine("Polling Binance API...");
+                await PollBinanceApi();
+                Console.WriteLine("Polling CoinBase API...");
+                await PollCoinBaseApi();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
         }
 
         private async Task PollBinanceApi()

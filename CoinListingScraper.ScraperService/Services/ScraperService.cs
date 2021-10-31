@@ -18,7 +18,7 @@ namespace CoinListingScraper.ScraperService.Services
 
         public async Task<IEnumerable<string>> GetLatestCoinBaseArticle()
         {
-            WebClient client = new WebClient();
+            var client = new WebClient();
             var downloadString = client.DownloadString("https://medium.com/_/api/collections/c114225aeaf7/latest");
             //string code = downloadString.Substring(42);
             //var codeSecondRemoved = code.Substring(0, code.Length - 32);
@@ -28,6 +28,7 @@ namespace CoinListingScraper.ScraperService.Services
                 .GroupBy(x => x)
                 .Select(x => x.First().Remove(0, 1).Remove(x.First().Length - 2, 1))
                 .ToList();
+
             return result;
         }
 
