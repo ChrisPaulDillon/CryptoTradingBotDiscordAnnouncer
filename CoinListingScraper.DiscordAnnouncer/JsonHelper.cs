@@ -10,13 +10,9 @@ namespace CoinListingScraper.DiscordAnnouncer
     {
         private static string coinPath = Path.Combine(Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName, "coins.json");
 
-        public static void WriteCoinToJsonFile(CoinListing coinListing)
+        public static void WriteCoinToJsonFile(IDictionary<string, CoinListing> coinListings)
         {
-            var coinList = new Dictionary<string, CoinListing>
-            {
-                { coinListing.Ticker, coinListing }
-            };
-            var json = JsonSerializer.Serialize(coinList);
+            var json = JsonSerializer.Serialize(coinListings);
             File.WriteAllText(coinPath, json);
         }
 

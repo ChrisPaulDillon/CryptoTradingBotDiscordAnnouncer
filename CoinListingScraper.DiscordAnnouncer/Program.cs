@@ -46,7 +46,10 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         async void TimerProc(object state)
         {
+            Console.WriteLine("Polling Binance API...");
             await PollBinanceApi();
+            Console.WriteLine("Polling CoinBase API...");
+            await PollCoinBaseApi();
         }
 
         private async Task PollBinanceApi()
@@ -55,15 +58,38 @@ namespace CoinListingScraper.DiscordAnnouncer
             
             if(coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
             {
-                Console.WriteLine("Coin found has already been stored");
                 return;
             }
 
-            JsonHelper.WriteCoinToJsonFile(coinListing);
             coinListings.Add(coinListing.Ticker, coinListing);
+            JsonHelper.WriteCoinToJsonFile(coinListings);
+
             var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
             await _discordService.Announce(msg);
+        }
+
+        private async Task PollCoinBaseApi()
+        {
+            var coinListingList = await _scraperService.GetLatestCoinBaseArticle();
+
+            foreach (var listing in coinListingList)
+            {
+                if (coinListings.TryGetValue(listing, out var duplicatedCoin))
+                {
+                    Console.WriteLine("Coin found has already been stored");
+                    return;
+                }
+
+                var coinListing = new CoinListing() { Ticker = listing };
+                coinListings.Add(coinListing.Ticker, coinListing);
+
+                JsonHelper.WriteCoinToJsonFile(coinListings);
+  
+                var msg = $"CoinBase will list {coinListing.Ticker}!";
+                Console.WriteLine(msg);
+                await _discordService.Announce(msg);
+            }
         }
     }
 }
