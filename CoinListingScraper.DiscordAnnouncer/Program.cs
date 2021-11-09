@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Timers;
+using CoinListingScraper.KuCoinService;
 using CoinListingScraper.ScraperService;
 using CoinListingScraper.ScraperService.Models;
 using CoinListingScraper.ScraperService.Services;
+using Kucoin.Net.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedLibraries.SmsService.Extensions;
@@ -17,12 +21,19 @@ namespace CoinListingScraper.DiscordAnnouncer
         private DiscordHelper _discordService;
 
         private IScraperService _scraperService;
+
+        private IKuCoinService _kuCoinService;
         //private GateIOService _gateService;
+
+        private Stopwatch _stopWatch;
 
         static void Main(string[] args) => new Program().Startup().GetAwaiter().GetResult();
 
         public async Task Startup()
         {
+            _stopWatch = new Stopwatch();
+            _stopWatch.Start();
+
             Console.WriteLine("Loading up...");
             coinListings = JsonHelper.LoadPreviouslyFoundCoins();
 
@@ -35,32 +46,38 @@ namespace CoinListingScraper.DiscordAnnouncer
 
             var serviceProvider = new ServiceCollection()
                 .AddScraperServices()
+                .AddKuCoinServices()
                 //.AddSmsServices("test", "")
                 .BuildServiceProvider();
 
            _scraperService = serviceProvider.GetService<IScraperService>();
-
+           _kuCoinService = serviceProvider.GetService<IKuCoinService>();
            _discordService = new DiscordHelper();
             //_gateService = new GateIOService();
 
             //_gateService.GetCurrency();
             await _discordService.StartBotAsync();
 
-            Console.WriteLine("Discord Bot now online");
+            Console.WriteLine(_stopWatch.Elapsed + "Discord Bot now online");
 
-            var timer = new System.Threading.Timer(TimerProc, null, 6000, 6000);
-            Console.WriteLine("Polling every 60 seconds.");
+            Console.WriteLine(_stopWatch.Elapsed + "Polling every 60 seconds.");
+
+            var timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
+            timer.AutoReset = true;
+            timer.Elapsed += TimerProc;
+            timer.Start();
+
+
             Console.ReadLine();
             timer.Dispose();
         }
 
-        async void TimerProc(object state)
+        async void TimerProc(object sender, ElapsedEventArgs e)
         {
             try
             {
-                Console.WriteLine("Polling Binance API...");
+                await _kuCoinService.PlaceOrder("MOVR");
                 await PollBinanceApi();
-                Console.WriteLine("Polling CoinBase API...");
                 await PollCoinBaseApi();
             }
             catch (Exception ex)
@@ -72,6 +89,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private async Task PollBinanceApi()
         {
+            Console.WriteLine(_stopWatch.Elapsed + "Polling Binance API...");
             var coinListing = await _scraperService.GetLatestBinanceArticle();
             
             if(coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
@@ -89,13 +107,14 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private async Task PollCoinBaseApi()
         {
+            Console.WriteLine(_stopWatch.Elapsed + "Polling CoinBase API...");
             var coinListingList = await _scraperService.GetLatestCoinBaseArticle();
 
             foreach (var listing in coinListingList)
             {
                 if (coinListings.TryGetValue(listing, out var duplicatedCoin))
                 {
-                    Console.WriteLine("Coin found has already been stored");
+                    //Console.WriteLine("Coin found has already been stored");
                     return;
                 }
 

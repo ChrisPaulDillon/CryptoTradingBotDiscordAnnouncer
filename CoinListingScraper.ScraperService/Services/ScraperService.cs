@@ -21,9 +21,8 @@ namespace CoinListingScraper.ScraperService.Services
             Console.WriteLine("Calling GetLatestCoinBaseArticle()");
             var client = new WebClient();
             var downloadString = client.DownloadString("https://medium.com/_/api/collections/c114225aeaf7/latest");
-            //string code = downloadString.Substring(42);
-            //var codeSecondRemoved = code.Substring(0, code.Length - 32);
-            //var article = JsonConvert.DeserializeObject<CoinBaseArticle>(codeSecondRemoved);
+
+            Console.WriteLine(downloadString);
             var result = downloadString.Split()
                 .Where(x => x.StartsWith("(") && x.EndsWith(")") && x.ToUpper() == x)
                 .GroupBy(x => x)

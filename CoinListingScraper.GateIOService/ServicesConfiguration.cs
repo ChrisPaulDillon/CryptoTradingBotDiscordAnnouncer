@@ -16,7 +16,7 @@ namespace CoinListingScraper.GateIOService
             config.BasePath = API_BASE;
             config.SetGateApiV4KeyPair(apiKeyStr, secretStr);
 
-            SpotApi spotApi; = new SpotApi(config);
+            SpotApi spotApi = new SpotApi(config);
             services.AddScoped<IGateIOService, GateIOService>();
 
             return services;
