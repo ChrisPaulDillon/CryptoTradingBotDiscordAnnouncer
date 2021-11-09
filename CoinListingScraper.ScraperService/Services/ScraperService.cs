@@ -18,13 +18,14 @@ namespace CoinListingScraper.ScraperService.Services
 
         public async Task<IEnumerable<string>> GetLatestCoinBaseArticle()
         {
+            Console.WriteLine("Calling GetLatestCoinBaseArticle()");
             var client = new WebClient();
             var downloadString = client.DownloadString("https://medium.com/_/api/collections/c114225aeaf7/latest");
             //string code = downloadString.Substring(42);
             //var codeSecondRemoved = code.Substring(0, code.Length - 32);
             //var article = JsonConvert.DeserializeObject<CoinBaseArticle>(codeSecondRemoved);
             var result = downloadString.Split()
-                .Where(x => x.StartsWith("(") && x.EndsWith(")"))
+                .Where(x => x.StartsWith("(") && x.EndsWith(")") && x.ToUpper() == x)
                 .GroupBy(x => x)
                 .Select(x => x.First().Remove(0, 1).Remove(x.First().Length - 2, 1))
                 .ToList();
@@ -34,6 +35,7 @@ namespace CoinListingScraper.ScraperService.Services
 
         public async Task<CoinListing> GetLatestBinanceArticle()
         {
+            Console.WriteLine("Calling GetLatestBinanceArticle()");
             _client = new RestClient(BinanceApiBase);
             var request = new RestRequest("composite/v1/public/cms/article/catalog/list/query?catalogId=48&pageNo=1&pageSize=15", DataFormat.Json);
             var response = await _client.GetAsync<BinanceArticle>(request);
