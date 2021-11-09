@@ -76,7 +76,7 @@ namespace CoinListingScraper.DiscordAnnouncer
         {
             try
             {
-                await _kuCoinService.PlaceOrder("MOVR");
+                //await _kuCoinService.PlaceOrder("MOVR");
                 await PollBinanceApi();
                 await PollCoinBaseApi();
             }

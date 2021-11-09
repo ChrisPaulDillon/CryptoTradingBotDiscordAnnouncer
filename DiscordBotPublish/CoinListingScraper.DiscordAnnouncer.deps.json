@@ -9,6 +9,7 @@
       "CoinListingScraper.DiscordAnnouncer/1.0.0": {
         "dependencies": {
           "ChrisDillon.SharedLibraries.SmsService": "1.10.31",
+          "CoinListingScraper.KuCoinService": "1.0.0",
           "CoinListingScraper.ScraperService": "1.0.0",
           "Discord.Net": "2.4.0",
           "Microsoft.Extensions.Configuration": "5.0.0",
@@ -30,6 +31,18 @@
           "lib/netcoreapp3.1/SharedLibraries.SmsService.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "CryptoExchange.Net/4.2.8": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.1/CryptoExchange.Net.dll": {
+            "assemblyVersion": "4.2.8.0",
+            "fileVersion": "4.2.8.0"
           }
         }
       },
@@ -98,6 +111,17 @@
           "lib/netstandard2.1/Discord.Net.WebSocket.dll": {
             "assemblyVersion": "2.4.0.0",
             "fileVersion": "2.4.0.0"
+          }
+        }
+      },
+      "Kucoin.Net/3.1.6": {
+        "dependencies": {
+          "CryptoExchange.Net": "4.2.8"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Kucoin.Net.dll": {
+            "assemblyVersion": "3.1.6.0",
+            "fileVersion": "3.1.6.0"
           }
         }
       },
@@ -228,6 +252,14 @@
           "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll": {
             "assemblyVersion": "5.0.0.0",
             "fileVersion": "5.0.20.51904"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions/3.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "assemblyVersion": "3.1.0.0",
+            "fileVersion": "3.100.19.56504"
           }
         }
       },
@@ -962,6 +994,15 @@
           "CoinListingScraper.Data.dll": {}
         }
       },
+      "CoinListingScraper.KuCoinService/1.0.0": {
+        "dependencies": {
+          "Kucoin.Net": "3.1.6",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0"
+        },
+        "runtime": {
+          "CoinListingScraper.KuCoinService.dll": {}
+        }
+      },
       "CoinListingScraper.ScraperService/1.0.0": {
         "dependencies": {
           "CoinListingScraper.CoinGecko": "1.0.0",
@@ -986,6 +1027,13 @@
       "sha512": "sha512-+Bc6kaw8C3OvSXe/BluOz8qONf9yQTtLHsz+QRVpusH9f4BKR8APjP9g4NFsWBuPwS+u0zoYJAroeVYO69gpaA==",
       "path": "chrisdillon.sharedlibraries.smsservice/1.10.31",
       "hashPath": "chrisdillon.sharedlibraries.smsservice.1.10.31.nupkg.sha512"
+    },
+    "CryptoExchange.Net/4.2.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CtblMHQwmZXEPJyrmjC2ZtNd5yr9+Gy3WWLSKprBbcU0qyZtbEQgaYMIWtI2CB4r4XMfu7z2/DvPdJKJcBmiJA==",
+      "path": "cryptoexchange.net/4.2.8",
+      "hashPath": "cryptoexchange.net.4.2.8.nupkg.sha512"
     },
     "Discord.Net/2.4.0": {
       "type": "package",
@@ -1028,6 +1076,13 @@
       "sha512": "sha512-+cHZFW2H03sGP+0vm8WG+S0dnhWamHfm1Oa4aSW9q8kWXOUhI+3oytb7VuGD2kxNWR/R8Ow8OVl7yhUiWVqqRA==",
       "path": "discord.net.websocket/2.4.0",
       "hashPath": "discord.net.websocket.2.4.0.nupkg.sha512"
+    },
+    "Kucoin.Net/3.1.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qwm4Bx2fV+Kyi0vurOzASU9lt6r8PmyHulJzouZGeKGcmCR0K8TxtRxVLqOT7dgMhRCF3118oHiTshubGT5Edw==",
+      "path": "kucoin.net/3.1.6",
+      "hashPath": "kucoin.net.3.1.6.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/5.0.0": {
       "type": "package",
@@ -1105,6 +1160,13 @@
       "sha512": "sha512-ArliS8lGk8sWRtrWpqI8yUVYJpRruPjCDT+EIjrgkA/AAPRctlAkRISVZ334chAKktTLzD1+PK8F5IZpGedSqA==",
       "path": "microsoft.extensions.filesystemglobbing/5.0.0",
       "hashPath": "microsoft.extensions.filesystemglobbing.5.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging.Abstractions/3.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jjo4YXRx6MIpv6DiRxJjSpl+sPP0+5VW0clMEdLyIAz44PPwrDTFrd5PZckIxIXl1kKZ2KK6IL2nkt0+ug2MQg==",
+      "path": "microsoft.extensions.logging.abstractions/3.1.0",
+      "hashPath": "microsoft.extensions.logging.abstractions.3.1.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Primitives/5.0.0": {
       "type": "package",
@@ -1665,6 +1727,11 @@
       "sha512": ""
     },
     "CoinListingScraper.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CoinListingScraper.KuCoinService/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
