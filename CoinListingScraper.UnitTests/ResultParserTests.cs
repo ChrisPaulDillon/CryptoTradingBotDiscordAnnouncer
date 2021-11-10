@@ -46,17 +46,19 @@ namespace CoinListingScraper.UnitTests
         }
 
         [Fact]
-        public void ExtractCoinFromBinanceArticle_TextContainsJustName_ReturnsCoinListing()
+        public void ExtractCoinFromBinanceArticle_TextContainsNameMultipleWords_ReturnsCoinListing()
         {
             // arrange
-            var articleText = "Binance Will List Tranchess Innovation Zone";
+            var coinToBeListed = "Ethereum Name Service";
+            var ticker = "ETH";
+            var articleText = $"Binance Will List {coinToBeListed} ({ticker}) Innovation Zone";
 
             // act
             var result = ResultParser.ExtractCoinFromBinanceArticle(articleText);
 
             // assert
-            Assert.Equal("Tranchess", result.Name);
-            Assert.Equal("CHESS", result.Ticker);
+            Assert.Equal(coinToBeListed, result.Name);
+            Assert.Equal(ticker, result.Ticker);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace CoinListingScraper.KuCoinService
             }
             else
             {
-
+                //var test = await _client.Spot.GetAccountAsync()
                 var buyResult = await _client.Spot.PlaceOrderAsync($"{tokenTicker}-USDT", null, KucoinOrderSide.Buy, KucoinNewOrderType.Market, quantity: 1, price: null, timeInForce: KucoinTimeInForce.GoodTillCancelled);
                 if (buyResult.Success)
                 {
