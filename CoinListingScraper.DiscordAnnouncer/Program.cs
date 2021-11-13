@@ -89,6 +89,8 @@ namespace CoinListingScraper.DiscordAnnouncer
             try
             {
                 if (isAlreadyBuying) return;
+
+                await PollKuCoinApi();
                 await PollBinanceApi();
                 await PollCoinBaseApi();
 
@@ -98,6 +100,31 @@ namespace CoinListingScraper.DiscordAnnouncer
                 Console.WriteLine(ex.Message);
             }
             
+        }
+
+        private async Task PollKuCoinApi()
+        {
+            Console.WriteLine("Polling KuCoin API...");
+            var coinListingList = _scraperService.GetLatestKuCoinListing();
+
+            foreach (var coinListing in coinListingList)
+            {
+                if (coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
+                {
+                    //Console.WriteLine("Coin found has already been stored");
+                    return;
+                }
+
+                coinListings.Add(coinListing.Ticker, coinListing);
+
+                JsonHelper.WriteCoinToJsonFile(coinListings);
+
+                //await BuyAndSellCrypto(coinListing.Ticker);
+
+                var msg = $"KuCoin will list {coinListing.Ticker}!";
+                Console.WriteLine(msg);
+                await _discordService.Announce(msg);
+            }
         }
 
         private async Task PollBinanceApi()

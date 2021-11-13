@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -33,9 +34,11 @@ namespace CoinListingScraper.ScraperService.Services
             return result;
         }
 
-        public void GetLatestKuCoinListing()
+        public IList<CoinListing> GetLatestKuCoinListing()
         {
             SyndicationFeed feed = null;
+
+            var coinListings = new List<CoinListing>();
 
             try
             {
@@ -50,10 +53,17 @@ namespace CoinListingScraper.ScraperService.Services
             {
                 foreach (var element in feed.Items)
                 {
-                    Console.WriteLine($"Title: {element.Title.Text}");
-                    Console.WriteLine($"Summary: {element.Summary.Text}");
+                    var coinListing = ResultParser.ExtractCoinFromKuCoinArticle(element.Title.Text);
+                    if (coinListing != null)
+                    {
+                        coinListings.Add(coinListing);
+                        Console.WriteLine($"Coin Name : {coinListing?.Name}");
+                        Console.WriteLine($"Ticker Name : {coinListing?.Ticker}");
+                    }
                 }
             }
+
+            return coinListings;
         }
 
         public async Task<CoinListing> GetLatestBinanceArticle()

@@ -6,7 +6,7 @@ namespace CoinListingScraper.ScraperService.Services
 {
     public interface IScraperService
     {
-        public void GetLatestKuCoinListing();
+        public IList<CoinListing> GetLatestKuCoinListing();
         public Task<IEnumerable<string>> GetLatestCoinBaseArticle();
         public Task<CoinListing> GetLatestBinanceArticle();
     }
