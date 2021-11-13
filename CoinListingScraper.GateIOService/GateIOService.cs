@@ -24,8 +24,13 @@ namespace CoinListingScraper.GateIOService
                 var tokenPair = $"{tokenTicker}_USDT";
                 var result = await _spotApi.GetCurrencyPairAsync(tokenPair);
                 var test = await _walletApi.GetTotalBalanceAsync();
+
+                var orderBook = await _spotApi.ListTickersAsync(tokenPair);
                 Console.WriteLine(test);
                 Console.WriteLine(result);
+                Console.WriteLine(orderBook[0].Last);
+                Console.WriteLine(orderBook.Count);
+                Console.WriteLine(orderBook);
                 var order = new Order();
                 order.CurrencyPair = tokenPair;
                 //order.Account = Order.AccountEnum.Spot;
