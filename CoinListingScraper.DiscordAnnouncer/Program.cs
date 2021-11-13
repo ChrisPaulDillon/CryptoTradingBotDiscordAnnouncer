@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using CoinListingScraper.GateIOService;
@@ -10,6 +11,7 @@ using CoinListingScraper.ScraperService.Models;
 using CoinListingScraper.ScraperService.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Timer = System.Timers.Timer;
 
 namespace CoinListingScraper.DiscordAnnouncer
 {
@@ -24,15 +26,12 @@ namespace CoinListingScraper.DiscordAnnouncer
         private IKuCoinService _kuCoinService;
         private IGateIoService _gateService;
 
-        private Stopwatch _stopWatch;
+        private bool isAlreadyBuying = false;
 
         static void Main(string[] args) => new Program().Startup().GetAwaiter().GetResult();
 
         public async Task Startup()
         {
-            _stopWatch = new Stopwatch();
-            _stopWatch.Start();
-
             Console.WriteLine("Loading up...");
             coinListings = JsonHelper.LoadPreviouslyFoundCoins();
 
@@ -60,28 +59,41 @@ namespace CoinListingScraper.DiscordAnnouncer
             //_gateService.GetCurrency();
             await _discordService.StartBotAsync();
 
-            Console.WriteLine(_stopWatch.Elapsed + "Discord Bot now online");
+            Console.WriteLine("Discord Bot now online");
+            Console.WriteLine("Polling every 60 seconds.");
 
-            Console.WriteLine(_stopWatch.Elapsed + "Polling every 60 seconds.");
-            await _gateService.PlaceOrder("CHESS");
             var timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
-
-                        _gateService.PlaceOrder("CHESS");
             Console.ReadLine();
             timer.Dispose();
+        }
+
+        private async Task BuyAndSellCrypto(string ticker) //new coin has been found, execute buy/sell
+        {
+            Console.WriteLine("Attempting to Place Order...");
+            var amountToSell = await _gateService.PlaceOrder(ticker);
+            Console.WriteLine("Order Successfully Placed");
+            Console.WriteLine("Going to sleep for 10 minutes");
+            isAlreadyBuying = true;
+            Thread.Sleep(60000);
+            await _gateService.SellOrder(ticker, amountToSell);
+            Console.WriteLine("Successfully Sold Order");
         }
 
         async void TimerProc(object sender, ElapsedEventArgs e)
         {
             try
             {
-    
-                //await _kuCoinService.PlaceOrder("MOVR");
-                //await PollBinanceApi();
-                //await PollCoinBaseApi();
+                if (!isAlreadyBuying) //Don't attempt to poll apis or buy crypto when an order is already placed
+                {
+                    await BuyAndSellCrypto("CHESS");
+                    //await _kuCoinService.PlaceOrder("MOVR");
+                    //await PollBinanceApi();
+                    //await PollCoinBaseApi();
+                }
+
             }
             catch (Exception ex)
             {
@@ -92,7 +104,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private async Task PollBinanceApi()
         {
-            Console.WriteLine(_stopWatch.Elapsed + "Polling Binance API...");
+            Console.WriteLine("Polling Binance API...");
             var coinListing = await _scraperService.GetLatestBinanceArticle();
             
             if(coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
@@ -110,7 +122,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private async Task PollCoinBaseApi()
         {
-            Console.WriteLine(_stopWatch.Elapsed + "Polling CoinBase API...");
+            Console.WriteLine("Polling CoinBase API...");
             var coinListingList = await _scraperService.GetLatestCoinBaseArticle();
 
             foreach (var listing in coinListingList)
