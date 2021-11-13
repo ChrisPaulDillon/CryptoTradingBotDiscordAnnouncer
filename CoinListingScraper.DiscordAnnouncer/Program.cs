@@ -119,7 +119,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
                 JsonHelper.WriteCoinToJsonFile(coinListings);
 
-                //await BuyAndSellCrypto(coinListing.Ticker);
+                await BuyAndSellCrypto(coinListing.Ticker);
 
                 var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
                 Console.WriteLine(msg);
