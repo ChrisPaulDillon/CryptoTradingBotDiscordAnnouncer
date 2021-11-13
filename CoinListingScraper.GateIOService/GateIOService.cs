@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Io.Gate.GateApi.Api;
 using Io.Gate.GateApi.Client;
@@ -20,6 +22,20 @@ namespace CoinListingScraper.GateIOService
         public double RoundDown(double number, int decimalPlaces)
         {
             return Math.Floor(number * Math.Pow(10, decimalPlaces)) / Math.Pow(10, decimalPlaces);
+        }
+
+        public async Task CancelSpotBuyOrder(string tokenTicker)
+        {
+            try
+            {
+                var tokenPair = $"{tokenTicker}_USDT";
+                // Cancel all `open` orders in specified currency pair
+                var result = await _spotApi.CancelOrdersAsync(tokenPair, "buy", "spot");
+            }
+            catch (ApiException e)
+            {
+                throw e;
+            }
         }
 
         public async Task<string> PlaceOrder(string tokenTicker)

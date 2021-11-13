@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
+using System.Xml;
 using CoinListingScraper.ScraperService.Models;
 using CoinListingScraper.ScraperService.Util;
 using RestSharp;
@@ -29,6 +31,29 @@ namespace CoinListingScraper.ScraperService.Services
                 .ToList();
 
             return result;
+        }
+
+        public void GetLatestKuCoinListing()
+        {
+            SyndicationFeed feed = null;
+
+            try
+            {
+                using (var reader = XmlReader.Create("https://www.kucoin.com/rss/news?lang=en"))
+                {
+                    feed = SyndicationFeed.Load(reader);
+                }
+            }
+            catch { } // TODO: Deal with unavailable resource.
+
+            if (feed != null)
+            {
+                foreach (var element in feed.Items)
+                {
+                    Console.WriteLine($"Title: {element.Title.Text}");
+                    Console.WriteLine($"Summary: {element.Summary.Text}");
+                }
+            }
         }
 
         public async Task<CoinListing> GetLatestBinanceArticle()
