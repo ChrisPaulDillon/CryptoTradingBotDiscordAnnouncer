@@ -86,13 +86,9 @@ namespace CoinListingScraper.DiscordAnnouncer
         {
             try
             {
-                if (!isAlreadyBuying) //Don't attempt to poll apis or buy crypto when an order is already placed
-                {
-                    await BuyAndSellCrypto("CHESS");
-                    //await _kuCoinService.PlaceOrder("MOVR");
-                    //await PollBinanceApi();
-                    //await PollCoinBaseApi();
-                }
+                if (isAlreadyBuying) return;
+                await PollBinanceApi();
+                await PollCoinBaseApi();
 
             }
             catch (Exception ex)
@@ -114,6 +110,8 @@ namespace CoinListingScraper.DiscordAnnouncer
 
             coinListings.Add(coinListing.Ticker, coinListing);
             JsonHelper.WriteCoinToJsonFile(coinListings);
+
+            await BuyAndSellCrypto(coinListing.Ticker);
 
             var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
@@ -137,7 +135,9 @@ namespace CoinListingScraper.DiscordAnnouncer
                 coinListings.Add(coinListing.Ticker, coinListing);
 
                 JsonHelper.WriteCoinToJsonFile(coinListings);
-  
+
+                await BuyAndSellCrypto(coinListing.Ticker);
+
                 var msg = $"CoinBase will list {coinListing.Ticker}!";
                 Console.WriteLine(msg);
                 await _discordService.Announce(msg);
