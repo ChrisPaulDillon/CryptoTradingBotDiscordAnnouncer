@@ -872,6 +872,14 @@
           "System.Runtime": "4.3.0"
         }
       },
+      "System.ServiceModel.Syndication/6.0.0": {
+        "runtime": {
+          "lib/netcoreapp3.1/System.ServiceModel.Syndication.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52210"
+          }
+        }
+      },
       "System.Text.Encoding/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -1043,7 +1051,8 @@
         "dependencies": {
           "CoinListingScraper.CoinGecko": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
-          "RestSharp": "106.13.0"
+          "RestSharp": "106.13.0",
+          "System.ServiceModel.Syndication": "6.0.0"
         },
         "runtime": {
           "CoinListingScraper.ScraperService.dll": {}
@@ -1693,6 +1702,13 @@
       "sha512": "sha512-I1tkfQlAoMM2URscUtpcRo/hX0jinXx6a/KUtEQoz3owaYwl3qwsO8cbzYVVnjxrzxjHo3nJC+62uolgeGIS9A==",
       "path": "system.security.principal/4.3.0",
       "hashPath": "system.security.principal.4.3.0.nupkg.sha512"
+    },
+    "System.ServiceModel.Syndication/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cp1mMNG87iJtE0oHXFtfWT6cfski2JNo5iU0siTPi/uN2k1CIJI6FE4jr4v3got2dzt7wBq17fSy44btun9GiA==",
+      "path": "system.servicemodel.syndication/6.0.0",
+      "hashPath": "system.servicemodel.syndication.6.0.0.nupkg.sha512"
     },
     "System.Text.Encoding/4.3.0": {
       "type": "package",
