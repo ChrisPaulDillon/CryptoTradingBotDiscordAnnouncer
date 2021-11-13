@@ -1,30 +1,39 @@
-﻿using Io.Gate.GateApi.Api;
+﻿using System;
+using System.Threading.Tasks;
+using Io.Gate.GateApi.Api;
 using Io.Gate.GateApi.Client;
 using Io.Gate.GateApi.Model;
 
 namespace CoinListingScraper.GateIOService
 {
-    public class GateIOService : IGateIOService
+    public class GateIoService : IGateIoService
     {
         private readonly SpotApi _spotApi;
-        
-        public GateIOService(SpotApi spotApi)
+        private readonly WalletApi _walletApi;
+
+        public GateIoService(SpotApi spotApi, WalletApi walletApi)
         {
             _spotApi = spotApi;
+            _walletApi = walletApi;
         }
 
-        public void PlaceOrder(string tokenTicker)
+        public async Task PlaceOrder(string tokenTicker)
         {
             try
             {
                 var tokenPair = $"{tokenTicker}_USDT";
-                var result = _spotApi.GetCurrencyPair(tokenPair);
+                var result = await _spotApi.GetCurrencyPairAsync(tokenPair);
+                var test = await _walletApi.GetTotalBalanceAsync();
+                Console.WriteLine(test);
+                Console.WriteLine(result);
                 var order = new Order();
                 order.CurrencyPair = tokenPair;
+                //order.Account = Order.AccountEnum.Spot;
+                //order.
             }
-            catch (GateApiException)
+            catch (GateApiException ex)
             {
-                
+                throw ex;
             }
         }
     }

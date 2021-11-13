@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Timers;
+using CoinListingScraper.GateIOService;
 using CoinListingScraper.KuCoinService;
 using CoinListingScraper.ScraperService;
 using CoinListingScraper.ScraperService.Models;
 using CoinListingScraper.ScraperService.Services;
-using Kucoin.Net.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SharedLibraries.SmsService.Extensions;
 
 namespace CoinListingScraper.DiscordAnnouncer
 {
@@ -23,7 +22,7 @@ namespace CoinListingScraper.DiscordAnnouncer
         private IScraperService _scraperService;
 
         private IKuCoinService _kuCoinService;
-        //private GateIOService _gateService;
+        private IGateIoService _gateService;
 
         private Stopwatch _stopWatch;
 
@@ -46,12 +45,15 @@ namespace CoinListingScraper.DiscordAnnouncer
 
             var serviceProvider = new ServiceCollection()
                 .AddScraperServices()
+                .AddGateIoServices()
                 .AddKuCoinServices()
                 //.AddSmsServices("test", "")
                 .BuildServiceProvider();
 
            _scraperService = serviceProvider.GetService<IScraperService>();
            _kuCoinService = serviceProvider.GetService<IKuCoinService>();
+           _gateService = serviceProvider.GetService<IGateIoService>();
+
            _discordService = new DiscordHelper();
             //_gateService = new GateIOService();
 
@@ -61,13 +63,13 @@ namespace CoinListingScraper.DiscordAnnouncer
             Console.WriteLine(_stopWatch.Elapsed + "Discord Bot now online");
 
             Console.WriteLine(_stopWatch.Elapsed + "Polling every 60 seconds.");
-
+            await _gateService.PlaceOrder("CHESS");
             var timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
 
-
+                        _gateService.PlaceOrder("CHESS");
             Console.ReadLine();
             timer.Dispose();
         }
@@ -76,9 +78,10 @@ namespace CoinListingScraper.DiscordAnnouncer
         {
             try
             {
+    
                 //await _kuCoinService.PlaceOrder("MOVR");
-                await PollBinanceApi();
-                await PollCoinBaseApi();
+                //await PollBinanceApi();
+                //await PollCoinBaseApi();
             }
             catch (Exception ex)
             {

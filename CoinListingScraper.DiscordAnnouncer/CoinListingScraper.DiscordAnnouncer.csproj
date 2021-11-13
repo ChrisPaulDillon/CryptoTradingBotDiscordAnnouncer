@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoinListingScraper.GateIOService\CoinListingScraper.GateIOService.csproj" />
     <ProjectReference Include="..\CoinListingScraper.KuCoinService\CoinListingScraper.KuCoinService.csproj" />
     <ProjectReference Include="..\CoinListingScraper.ScraperService\CoinListingScraper.ScraperService.csproj" />
   </ItemGroup>
