@@ -17,24 +17,33 @@ namespace CoinListingScraper.GateIOService
             _walletApi = walletApi;
         }
 
+        public double RoundDown(double number, int decimalPlaces)
+        {
+            return Math.Floor(number * Math.Pow(10, decimalPlaces)) / Math.Pow(10, decimalPlaces);
+        }
+
         public async Task PlaceOrder(string tokenTicker)
         {
             try
             {
                 var tokenPair = $"{tokenTicker}_USDT";
-                var result = await _spotApi.GetCurrencyPairAsync(tokenPair);
-                var test = await _walletApi.GetTotalBalanceAsync();
-
+                var currencyPair = await _spotApi.GetCurrencyPairAsync(tokenPair);
+                var userBalance = await _walletApi.GetTotalBalanceAsync();
                 var orderBook = await _spotApi.ListTickersAsync(tokenPair);
-                Console.WriteLine(test);
-                Console.WriteLine(result);
-                Console.WriteLine(orderBook[0].Last);
-                Console.WriteLine(orderBook.Count);
-                Console.WriteLine(orderBook);
-                var order = new Order();
-                order.CurrencyPair = tokenPair;
-                //order.Account = Order.AccountEnum.Spot;
-                //order.
+
+                var lastPrice = orderBook[0].Last;
+
+                var amountToBuy = Convert.ToDouble(userBalance.Total.Amount) / Convert.ToDouble(lastPrice);
+
+                Console.WriteLine("User Balance :" + userBalance.Total.Amount);
+                Console.WriteLine("Last Price: " + orderBook[0].Last);
+                Console.WriteLine($"Amount of : {tokenTicker} to buy: " + amountToBuy);
+
+                var order = new Order(null, tokenPair, Order.TypeEnum.Limit, Order.AccountEnum.Spot, Order.SideEnum.Buy, RoundDown(amountToBuy, 2).ToString(), lastPrice);
+
+                Console.WriteLine(order);
+                var createdOrder = await _spotApi.CreateOrderAsync(order);
+                Console.WriteLine(createdOrder);
             }
             catch (GateApiException ex)
             {
