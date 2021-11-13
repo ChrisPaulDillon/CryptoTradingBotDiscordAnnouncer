@@ -57,8 +57,6 @@ namespace CoinListingScraper.ScraperService.Services
                     if (coinListing != null)
                     {
                         coinListings.Add(coinListing);
-                        Console.WriteLine($"Coin Name : {coinListing?.Name}");
-                        Console.WriteLine($"Ticker Name : {coinListing?.Ticker}");
                     }
                 }
             }

@@ -12,7 +12,7 @@ namespace CoinListingScraper.ScraperService.Util
             var listStr = " Gets Listed ";
             if (!articleTitle.Contains(listStr)) //Only continue if the article is about listing a new coin
             {
-                Console.WriteLine($"Latest Article is not a coin listing: {articleTitle}");
+                //Console.WriteLine($"Latest Article is not a coin listing: {articleTitle}");
                 return null;
             }
 
@@ -35,7 +35,7 @@ namespace CoinListingScraper.ScraperService.Util
 
             if (!articleTitle.Contains(listStr)) //Only continue if the article is about listing a new coin
             {
-                Console.WriteLine($"Latest Article is not a coin listing: {articleTitle}");
+                //Console.WriteLine($"Latest Article is not a coin listing: {articleTitle}");
                 return null;
             }
 

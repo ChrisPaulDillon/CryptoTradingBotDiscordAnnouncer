@@ -121,7 +121,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
                 //await BuyAndSellCrypto(coinListing.Ticker);
 
-                var msg = $"KuCoin will list {coinListing.Ticker}!";
+                var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
                 Console.WriteLine(msg);
                 await _discordService.Announce(msg);
             }
