@@ -22,7 +22,6 @@ namespace CoinListingScraper.ScraperService.Services
             var client = new WebClient();
             var downloadString = client.DownloadString("https://medium.com/_/api/collections/c114225aeaf7/latest");
 
-            Console.WriteLine(downloadString);
             var result = downloadString.Split()
                 .Where(x => x.StartsWith("(") && x.EndsWith(")") && x.ToUpper() == x)
                 .GroupBy(x => x)
