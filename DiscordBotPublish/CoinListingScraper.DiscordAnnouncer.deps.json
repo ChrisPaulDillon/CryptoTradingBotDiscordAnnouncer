@@ -9,6 +9,7 @@
       "CoinListingScraper.DiscordAnnouncer/1.0.0": {
         "dependencies": {
           "ChrisDillon.SharedLibraries.SmsService": "1.10.31",
+          "CoinListingScraper.GateIOService": "1.0.0",
           "CoinListingScraper.KuCoinService": "1.0.0",
           "CoinListingScraper.ScraperService": "1.0.0",
           "Discord.Net": "2.4.0",
@@ -111,6 +112,31 @@
           "lib/netstandard2.1/Discord.Net.WebSocket.dll": {
             "assemblyVersion": "2.4.0.0",
             "fileVersion": "2.4.0.0"
+          }
+        }
+      },
+      "Io.Gate.GateApi/4.22.3": {
+        "dependencies": {
+          "JsonSubTypes": "1.5.2",
+          "Newtonsoft.Json": "13.0.1",
+          "RestSharp": "106.13.0",
+          "System.ComponentModel.Annotations": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Io.Gate.GateApi.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "JsonSubTypes/1.5.2": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/JsonSubTypes.dll": {
+            "assemblyVersion": "1.5.2.0",
+            "fileVersion": "1.5.2.0"
           }
         }
       },
@@ -436,6 +462,7 @@
           "System.Threading": "4.3.0"
         }
       },
+      "System.ComponentModel.Annotations/4.5.0": {},
       "System.Diagnostics.Debug/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0",
@@ -994,6 +1021,15 @@
           "CoinListingScraper.Data.dll": {}
         }
       },
+      "CoinListingScraper.GateIOService/1.0.0": {
+        "dependencies": {
+          "Io.Gate.GateApi": "4.22.3",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0"
+        },
+        "runtime": {
+          "CoinListingScraper.GateIOService.dll": {}
+        }
+      },
       "CoinListingScraper.KuCoinService/1.0.0": {
         "dependencies": {
           "Kucoin.Net": "3.1.6",
@@ -1076,6 +1112,20 @@
       "sha512": "sha512-+cHZFW2H03sGP+0vm8WG+S0dnhWamHfm1Oa4aSW9q8kWXOUhI+3oytb7VuGD2kxNWR/R8Ow8OVl7yhUiWVqqRA==",
       "path": "discord.net.websocket/2.4.0",
       "hashPath": "discord.net.websocket.2.4.0.nupkg.sha512"
+    },
+    "Io.Gate.GateApi/4.22.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2d2Usy8Sr0n+oCqafrVJDsMsm5s57oYuMon/n6Hzf42o0nkAkBkUW5u/viXmKsEHUq+9krUf07s5FNdi8ycojA==",
+      "path": "io.gate.gateapi/4.22.3",
+      "hashPath": "io.gate.gateapi.4.22.3.nupkg.sha512"
+    },
+    "JsonSubTypes/1.5.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Lu1fbpVYMDl45cz8Y0cH7MTjIN0dDhjg2srkbIJ7fjHvGepfzgKCf7WC5qp2vCxVZfNDeAcS1YAJZELhUFVPsw==",
+      "path": "jsonsubtypes/1.5.2",
+      "hashPath": "jsonsubtypes.1.5.2.nupkg.sha512"
     },
     "Kucoin.Net/3.1.6": {
       "type": "package",
@@ -1363,6 +1413,13 @@
       "sha512": "sha512-Epx8PoVZR0iuOnJJDzp7pWvdfMMOAvpUo95pC4ScH2mJuXkKA2Y4aR3cG9qt2klHgSons1WFh4kcGW7cSXvrxg==",
       "path": "system.collections.specialized/4.3.0",
       "hashPath": "system.collections.specialized.4.3.0.nupkg.sha512"
+    },
+    "System.ComponentModel.Annotations/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UxYQ3FGUOtzJ7LfSdnYSFd7+oEv6M8NgUatatIN2HxNtDdlcvFAf+VIq4Of9cDMJEJC0aSRv/x898RYhB4Yppg==",
+      "path": "system.componentmodel.annotations/4.5.0",
+      "hashPath": "system.componentmodel.annotations.4.5.0.nupkg.sha512"
     },
     "System.Diagnostics.Debug/4.3.0": {
       "type": "package",
@@ -1727,6 +1784,11 @@
       "sha512": ""
     },
     "CoinListingScraper.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CoinListingScraper.GateIOService/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
