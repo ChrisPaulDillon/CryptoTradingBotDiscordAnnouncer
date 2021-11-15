@@ -53,16 +53,13 @@ namespace CoinListingScraper.DiscordAnnouncer
             _gateService = serviceProvider.GetService<IGateIoService>();
 
             _discordService = new DiscordHelper();
-            //_gateService = new GateIOService();
-
-            //_gateService.GetCurrency();
             await _discordService.StartBotAsync();
 
             Console.WriteLine("Discord Bot now online");
-            Console.WriteLine("Polling every 60 seconds.");
+            Console.WriteLine("Polling every 580 ms");
 
             //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
-            var timer = new Timer(TimeSpan.FromMilliseconds(750).TotalMilliseconds);
+            var timer = new Timer(TimeSpan.FromMilliseconds(580).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
@@ -93,7 +90,7 @@ namespace CoinListingScraper.DiscordAnnouncer
                 if (isAlreadyBuying) return;
 
                 await PollKuCoinApi();
-                //await PollBinanceApi();
+                await PollBinanceApi();
                 // await PollCoinBaseApi();
 
             }
@@ -111,7 +108,6 @@ namespace CoinListingScraper.DiscordAnnouncer
 
             if (coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
             {
-                //Console.WriteLine("Coin found has already been stored");
                 return;
             }
 
@@ -161,7 +157,6 @@ namespace CoinListingScraper.DiscordAnnouncer
             {
                 if (coinListings.TryGetValue(listing, out var duplicatedCoin))
                 {
-                    //Console.WriteLine("Coin found has already been stored");
                     return;
                 }
 

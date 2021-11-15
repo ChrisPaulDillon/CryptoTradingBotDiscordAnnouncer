@@ -64,7 +64,6 @@ namespace CoinListingScraper.ScraperService.Services
 
         public async Task<CoinListing> GetLatestBinanceArticle()
         {
-            Console.WriteLine("Calling GetLatestBinanceArticle()");
             _client = new RestClient(BinanceApiBase);
             var request = new RestRequest("composite/v1/public/cms/article/catalog/list/query?catalogId=48&pageNo=1&pageSize=2", DataFormat.Json);
             var response = await _client.GetAsync<BinanceArticle>(request);
