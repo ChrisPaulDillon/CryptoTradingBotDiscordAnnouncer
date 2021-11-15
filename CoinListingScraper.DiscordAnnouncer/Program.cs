@@ -75,9 +75,9 @@ namespace CoinListingScraper.DiscordAnnouncer
 
 
             Console.WriteLine("Order Successfully Placed at " + DateTime.UtcNow);
-            Console.WriteLine("Going to sleep for 15 minutes");
+            Console.WriteLine("Going to sleep for 5 minutes");
 
-            Thread.Sleep(900000);
+            Thread.Sleep(300000);
             await _gateService.SellOrder(ticker, amountToSell);
             Console.WriteLine("Successfully Sold Order at " + DateTime.UtcNow);
             isAlreadyBuying = false;
