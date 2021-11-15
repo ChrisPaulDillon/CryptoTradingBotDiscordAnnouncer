@@ -90,8 +90,8 @@ namespace CoinListingScraper.DiscordAnnouncer
                 if (isAlreadyBuying) return;
 
                 await PollKuCoinApi();
-                await PollBinanceApi();
-                // await PollCoinBaseApi();
+                await PollBinanceApi(); 
+                //await PollCoinBaseApi();
 
             }
             catch (Exception ex)
@@ -119,7 +119,7 @@ namespace CoinListingScraper.DiscordAnnouncer
             Console.WriteLine(msg);
             await _discordService.Announce(msg);
 
-            //await BuyAndSellCrypto(coinListing.Ticker);
+            await BuyAndSellCrypto(coinListing.Ticker);
 
         }
 
@@ -145,7 +145,7 @@ namespace CoinListingScraper.DiscordAnnouncer
             Console.WriteLine(msg);
             await _discordService.Announce(msg);
 
-            //await BuyAndSellCrypto(coinListing.Ticker);
+            await BuyAndSellCrypto(coinListing.Ticker);
         }
 
         private async Task PollCoinBaseApi()
