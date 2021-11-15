@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -49,11 +48,11 @@ namespace CoinListingScraper.DiscordAnnouncer
                 //.AddSmsServices("test", "")
                 .BuildServiceProvider();
 
-           _scraperService = serviceProvider.GetService<IScraperService>();
-           _kuCoinService = serviceProvider.GetService<IKuCoinService>();
-           _gateService = serviceProvider.GetService<IGateIoService>();
+            _scraperService = serviceProvider.GetService<IScraperService>();
+            _kuCoinService = serviceProvider.GetService<IKuCoinService>();
+            _gateService = serviceProvider.GetService<IGateIoService>();
 
-           _discordService = new DiscordHelper();
+            _discordService = new DiscordHelper();
             //_gateService = new GateIOService();
 
             //_gateService.GetCurrency();
@@ -62,7 +61,8 @@ namespace CoinListingScraper.DiscordAnnouncer
             Console.WriteLine("Discord Bot now online");
             Console.WriteLine("Polling every 60 seconds.");
 
-            var timer = new Timer(TimeSpan.FromMinutes(1).TotalMilliseconds);
+            //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
+            var timer = new Timer(TimeSpan.FromMilliseconds(500).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
@@ -72,16 +72,18 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private async Task BuyAndSellCrypto(string ticker) //new coin has been found, execute buy/sell
         {
+            isAlreadyBuying = true;
             Console.WriteLine("Attempting to Place Order...");
             var amountToSell = await _gateService.PlaceOrder(ticker);
-            isAlreadyBuying = true;
 
-            Console.WriteLine("Order Successfully Placed");
+
+            Console.WriteLine("Order Successfully Placed at " + DateTime.UtcNow);
             Console.WriteLine("Going to sleep for 15 minutes");
-     
+
             Thread.Sleep(900000);
             await _gateService.SellOrder(ticker, amountToSell);
-            Console.WriteLine("Successfully Sold Order");
+            Console.WriteLine("Successfully Sold Order at " + DateTime.UtcNow);
+            isAlreadyBuying = false;
         }
 
         async void TimerProc(object sender, ElapsedEventArgs e)
@@ -90,16 +92,16 @@ namespace CoinListingScraper.DiscordAnnouncer
             {
                 if (isAlreadyBuying) return;
 
-                await PollKuCoinApi();
+                //await PollKuCoinApi();
                 await PollBinanceApi();
-                await PollCoinBaseApi();
+                // await PollCoinBaseApi();
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            
+
         }
 
         private async Task PollKuCoinApi()
@@ -119,11 +121,11 @@ namespace CoinListingScraper.DiscordAnnouncer
 
                 JsonHelper.WriteCoinToJsonFile(coinListings);
 
-                await BuyAndSellCrypto(coinListing.Ticker);
-
                 var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
                 Console.WriteLine(msg);
                 await _discordService.Announce(msg);
+
+                //await BuyAndSellCrypto(coinListing.Ticker);
             }
         }
 
@@ -131,8 +133,13 @@ namespace CoinListingScraper.DiscordAnnouncer
         {
             Console.WriteLine("Polling Binance API...");
             var coinListing = await _scraperService.GetLatestBinanceArticle();
-            
-            if(coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
+
+            if (coinListing == null) //Article did not contain a coin, continue to poll
+            {
+                return;
+            }
+
+            if (coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
             {
                 return;
             }
@@ -140,11 +147,11 @@ namespace CoinListingScraper.DiscordAnnouncer
             coinListings.Add(coinListing.Ticker, coinListing);
             JsonHelper.WriteCoinToJsonFile(coinListings);
 
-            await BuyAndSellCrypto(coinListing.Ticker);
-
             var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
             await _discordService.Announce(msg);
+
+            //await BuyAndSellCrypto(coinListing.Ticker);
         }
 
         private async Task PollCoinBaseApi()
@@ -165,11 +172,11 @@ namespace CoinListingScraper.DiscordAnnouncer
 
                 JsonHelper.WriteCoinToJsonFile(coinListings);
 
-                await BuyAndSellCrypto(coinListing.Ticker);
-
                 var msg = $"CoinBase will list {coinListing.Ticker}!";
                 Console.WriteLine(msg);
                 await _discordService.Announce(msg);
+
+                //await BuyAndSellCrypto(coinListing.Ticker);
             }
         }
     }

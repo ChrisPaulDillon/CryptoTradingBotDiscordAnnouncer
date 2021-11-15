@@ -68,30 +68,22 @@ namespace CoinListingScraper.ScraperService.Services
         {
             Console.WriteLine("Calling GetLatestBinanceArticle()");
             _client = new RestClient(BinanceApiBase);
-            var request = new RestRequest("composite/v1/public/cms/article/catalog/list/query?catalogId=48&pageNo=1&pageSize=15", DataFormat.Json);
+            var request = new RestRequest("composite/v1/public/cms/article/catalog/list/query?catalogId=48&pageNo=1&pageSize=2", DataFormat.Json);
             var response = await _client.GetAsync<BinanceArticle>(request);
 
-            var latestArticle = response.data.articles.Where(x => x.title.Contains("List")).Select(x => x.title).FirstOrDefault(); //Get the latest article title
+            var latestArticle = response.data.articles.FirstOrDefault().title;
+
+            if (!latestArticle.Contains(" List "))
+            {
+                return null;
+            }
             var coinListing = ResultParser.ExtractCoinFromBinanceArticle(latestArticle);
 
             if (coinListing != null) //Found a new coin listing, write to disk
             {
-                //var coinInCollection = coinListings.Any(x => x.Name == coinListing.Name);
-                //if (coinInCollection)
-                //{
-                //    Console.WriteLine("Coin found has already been stored");
-                //    return;
-                //}
-
-                //JsonHelper.WriteCoinToJsonFile(coinListing);
-                //coinListings.Add(coinListing);
-                var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
-                //Console.WriteLine(msg);
-                //await _discordService.Announce(msg);
                 return coinListing;
             }
 
-            //Console.WriteLine("No new coin found, trying again in 60 seconds");
             return null;
         }
     }
