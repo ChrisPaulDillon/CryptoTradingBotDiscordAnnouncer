@@ -34,11 +34,9 @@ namespace CoinListingScraper.ScraperService.Services
             return result;
         }
 
-        public IList<CoinListing> GetLatestKuCoinListing()
+        public CoinListing GetLatestKuCoinListing()
         {
             SyndicationFeed feed = null;
-
-            var coinListings = new List<CoinListing>();
 
             try
             {
@@ -56,12 +54,12 @@ namespace CoinListingScraper.ScraperService.Services
                     var coinListing = ResultParser.ExtractCoinFromKuCoinArticle(element.Title.Text);
                     if (coinListing != null)
                     {
-                        coinListings.Add(coinListing);
+                        return coinListing;
                     }
                 }
             }
 
-            return coinListings;
+            return null;
         }
 
         public async Task<CoinListing> GetLatestBinanceArticle()

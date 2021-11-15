@@ -62,7 +62,7 @@ namespace CoinListingScraper.DiscordAnnouncer
             Console.WriteLine("Polling every 60 seconds.");
 
             //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
-            var timer = new Timer(TimeSpan.FromMilliseconds(500).TotalMilliseconds);
+            var timer = new Timer(TimeSpan.FromMilliseconds(750).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
@@ -92,8 +92,8 @@ namespace CoinListingScraper.DiscordAnnouncer
             {
                 if (isAlreadyBuying) return;
 
-                //await PollKuCoinApi();
-                await PollBinanceApi();
+                await PollKuCoinApi();
+                //await PollBinanceApi();
                 // await PollCoinBaseApi();
 
             }
@@ -107,26 +107,24 @@ namespace CoinListingScraper.DiscordAnnouncer
         private async Task PollKuCoinApi()
         {
             Console.WriteLine("Polling KuCoin API...");
-            var coinListingList = _scraperService.GetLatestKuCoinListing();
+            var coinListing = _scraperService.GetLatestKuCoinListing();
 
-            foreach (var coinListing in coinListingList)
+            if (coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
             {
-                if (coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
-                {
-                    //Console.WriteLine("Coin found has already been stored");
-                    return;
-                }
-
-                coinListings.Add(coinListing.Ticker, coinListing);
-
-                JsonHelper.WriteCoinToJsonFile(coinListings);
-
-                var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
-                Console.WriteLine(msg);
-                await _discordService.Announce(msg);
-
-                //await BuyAndSellCrypto(coinListing.Ticker);
+                //Console.WriteLine("Coin found has already been stored");
+                return;
             }
+
+            coinListings.Add(coinListing.Ticker, coinListing);
+
+            JsonHelper.WriteCoinToJsonFile(coinListings);
+
+            var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
+            Console.WriteLine(msg);
+            await _discordService.Announce(msg);
+
+            //await BuyAndSellCrypto(coinListing.Ticker);
+
         }
 
         private async Task PollBinanceApi()
