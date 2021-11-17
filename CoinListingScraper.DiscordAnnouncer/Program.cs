@@ -116,16 +116,15 @@ namespace CoinListingScraper.DiscordAnnouncer
                 return;
             }
 
-            coinListings.Add(coinListing.Ticker, coinListing);
-
-            JsonHelper.WriteCoinToJsonFile(coinListings);
-
             var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
-            await _discordService.Announce(msg);
+            var discordAnnouncement = _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
             await BuyAndSellCrypto(coinListing.Ticker, _kuCoinConfig);
+            await discordAnnouncement;
 
+            coinListings.Add(coinListing.Ticker, coinListing);
+            JsonHelper.WriteCoinToJsonFile(coinListings);
         }
 
         private async Task PollBinanceApi()
@@ -142,14 +141,15 @@ namespace CoinListingScraper.DiscordAnnouncer
                 return;
             }
 
-            coinListings.Add(coinListing.Ticker, coinListing);
-            JsonHelper.WriteCoinToJsonFile(coinListings);
-
             var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
-            await _discordService.Announce(msg);
+            var discordAnnouncement = _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
             await BuyAndSellCrypto(coinListing.Ticker, _binanceConfig);
+            await discordAnnouncement;
+
+            coinListings.Add(coinListing.Ticker, coinListing);
+            JsonHelper.WriteCoinToJsonFile(coinListings);
         }
 
         private async Task PollCoinBaseApi()
@@ -171,9 +171,10 @@ namespace CoinListingScraper.DiscordAnnouncer
 
                 var msg = $"CoinBase will list {coinListing.Ticker}!";
                 Console.WriteLine(msg);
-                await _discordService.Announce(msg);
+                var discordAnnouncement = _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
                 //await BuyAndSellCrypto(coinListing.Ticker);
+                await discordAnnouncement;
             }
         }
     }
