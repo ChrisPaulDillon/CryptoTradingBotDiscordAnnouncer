@@ -1,1 +1,37 @@
-{"RGT":{"ArticleTitle":null,"Name":"Rari","Ticker":"RGT"},"CRO":{"ArticleTitle":null,"Name":null,"Ticker":"CRO"},"SUKU":{"ArticleTitle":null,"Name":null,"Ticker":"SUKU"},"LCX":{"ArticleTitle":null,"Name":null,"Ticker":"LCX"},"TRAC":{"ArticleTitle":null,"Name":null,"Ticker":"TRAC"},"PT":{"ArticleTitle":null,"Name":null,"Ticker":"PT"}}
+{
+  "RGT": {
+    "ArticleTitle": null,
+    "Name": "Rari",
+    "Ticker": "RGT"
+  },
+  "CRO": {
+    "ArticleTitle": null,
+    "Name": null,
+    "Ticker": "CRO"
+  },
+  "SUKU": {
+    "ArticleTitle": null,
+    "Name": null,
+    "Ticker": "SUKU"
+  },
+  "LCX": {
+    "ArticleTitle": null,
+    "Name": null,
+    "Ticker": "LCX"
+  },
+  "TRAC": {
+    "ArticleTitle": null,
+    "Name": null,
+    "Ticker": "TRAC"
+  },
+  "PT": {
+    "ArticleTitle": null,
+    "Name": null,
+    "Ticker": "PT"
+  },
+  "BAKE": {
+    "ArticleTitle": null,
+    "Name": "BakeryToken",
+    "Ticker": "BAKE"
+  }
+}
