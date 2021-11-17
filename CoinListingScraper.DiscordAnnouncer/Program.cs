@@ -119,6 +119,11 @@ namespace CoinListingScraper.DiscordAnnouncer
         {
             var coinListing = _scraperService.GetLatestKuCoinListing();
 
+            if (coinListing == null) //Article did not contain a coin, continue to poll
+            {
+                return;
+            }
+
             if (coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
             {
                 return;
