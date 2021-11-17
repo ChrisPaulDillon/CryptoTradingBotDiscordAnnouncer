@@ -17,7 +17,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 {
     internal class Program
     {
-        private readonly ExchangeActionConfig _kuCoinConfig = new ExchangeActionConfig("KuCoin", false);
+        private readonly ExchangeActionConfig _kuCoinConfig = new ExchangeActionConfig("KuCoin");
         private readonly ExchangeActionConfig _binanceConfig = new ExchangeActionConfig("Binance");
         private static IDictionary<string, CoinListing> coinListings = new Dictionary<string, CoinListing>(); //Store a collection of coinListings in memory to prevent additional write operations
 
@@ -59,12 +59,10 @@ namespace CoinListingScraper.DiscordAnnouncer
             await _discordService.StartBotAsync();
 
             Console.WriteLine("Discord Bot now online");
-            Console.WriteLine("Polling every 580 ms");
-
-            await BuyAndSellCrypto("CHESS", _binanceConfig);
+            Console.WriteLine("Polling every 600 ms");
 
             //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
-            var timer = new Timer(TimeSpan.FromMilliseconds(580).TotalMilliseconds);
+            var timer = new Timer(TimeSpan.FromMilliseconds(600).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
@@ -79,11 +77,13 @@ namespace CoinListingScraper.DiscordAnnouncer
             var orderResult = await _gateService.PlaceOrder(ticker);
 
             Console.WriteLine("Order Successfully Placed at " + DateTime.UtcNow);
+            Thread.Sleep(30000); //sleep an additional 30 seconds to ensure order has been filled before proceeding
+
             if (config.AutomatedSell)
             {
-                for (var i = 0; i < 15; i++)
+                for (var i = 0; i < 30; i++)
                 {
-                    Thread.Sleep(60000);
+                    Thread.Sleep(30000);
                     Console.WriteLine("Checking last price...");
 
                     var didSell = await _gateService.AttemptSellOrder(ticker, Convert.ToDouble(orderResult.Amount), Convert.ToDouble(orderResult.Price));
@@ -126,13 +126,14 @@ namespace CoinListingScraper.DiscordAnnouncer
 
             var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
-            var discordAnnouncement = _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
             await BuyAndSellCrypto(coinListing.Ticker, _kuCoinConfig);
-            await discordAnnouncement;
 
             coinListings.Add(coinListing.Ticker, coinListing);
             JsonHelper.WriteCoinToJsonFile(coinListings);
+
+            await _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
+
         }
 
         private async Task PollBinanceApi()
@@ -151,10 +152,10 @@ namespace CoinListingScraper.DiscordAnnouncer
 
             var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
-            var discordAnnouncement = _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
             await BuyAndSellCrypto(coinListing.Ticker, _binanceConfig);
-            await discordAnnouncement;
+
+            await _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
             coinListings.Add(coinListing.Ticker, coinListing);
             JsonHelper.WriteCoinToJsonFile(coinListings);
@@ -179,10 +180,9 @@ namespace CoinListingScraper.DiscordAnnouncer
 
                 var msg = $"CoinBase will list {coinListing.Ticker}!";
                 Console.WriteLine(msg);
-                var discordAnnouncement = _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
+                await _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
                 //await BuyAndSellCrypto(coinListing.Ticker);
-                await discordAnnouncement;
             }
         }
     }

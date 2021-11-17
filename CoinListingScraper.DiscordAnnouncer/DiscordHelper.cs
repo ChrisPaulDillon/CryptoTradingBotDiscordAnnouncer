@@ -14,7 +14,7 @@ namespace CoinListingScraper.DiscordAnnouncer
         private CommandService _commands;
         private IServiceProvider _services;
 
-        private readonly ulong discordChannelId = 559085045864988694;
+        private readonly ulong discordChannelId = 910570370719948810;
         private readonly string discordTokenId = "OTAzMDQ2MTQxNDgwOTM1NDg3.YXnRQQ.zf6JpHTrXHbg7qWRSzIg5K5Pb7I";
 
         public DiscordHelper()

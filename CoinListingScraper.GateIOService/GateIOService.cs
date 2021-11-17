@@ -49,9 +49,9 @@ namespace CoinListingScraper.GateIOService
 
                 var amountToBuy = RoundDown((Convert.ToDouble(userBalance.Total.Amount) - 5) / lastPrice, 2);
 
-                Console.WriteLine("User Balance : " + userBalance.Total.Amount);
-                Console.WriteLine("Last Price : " + orderBook[0].Last);
-                Console.WriteLine("Buying Price: " + lastPrice);
+                Console.WriteLine($"User Balance : {userBalance.Total.Amount}");
+                Console.WriteLine($"Last Price : ${orderBook[0].Last}");
+                Console.WriteLine($"Buying Price: ${lastPrice}");
                 Console.WriteLine($"Amount of {tokenTicker} to buy: " + amountToBuy);
 
                 var order = new Order(null, tokenPair, Order.TypeEnum.Limit, Order.AccountEnum.Spot, Order.SideEnum.Buy, amountToBuy.ToString(), lastPrice.ToString());
@@ -80,7 +80,8 @@ namespace CoinListingScraper.GateIOService
                 var howMuchIncreased = (lastPrice - boughtPrice) / boughtPrice * 100;
                 if (howMuchIncreased < 10) //Coin is not currently above 10% of what we bought, don't buy it
                 {
-                    Console.WriteLine($"Current price is {howMuchIncreased}% below the original buying price, do not sell");
+                    Console.WriteLine($"Current price (${lastPrice}) is {howMuchIncreased}% relative to the original buying price, do not sell");
+                    return false;
                 }
 
                 var amountToSellUpdated = amountToSell * 0.997; //Temporary until just read wallet balance of token
