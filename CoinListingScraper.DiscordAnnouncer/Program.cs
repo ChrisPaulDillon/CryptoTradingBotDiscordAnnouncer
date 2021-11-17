@@ -74,16 +74,22 @@ namespace CoinListingScraper.DiscordAnnouncer
         {
             isAlreadyBuying = true;
             Console.WriteLine("Attempting to Place Order...");
-            var amountToSell = await _gateService.PlaceOrder(ticker);
+            var orderResult = await _gateService.PlaceOrder(ticker);
 
             Console.WriteLine("Order Successfully Placed at " + DateTime.UtcNow);
             if (config.AutomatedSell)
             {
-                Console.WriteLine("Going to sleep for 5 minutes");
+                for (var i = 0; i < 15; i++)
+                {
+                    Thread.Sleep(60000);
+                    Console.WriteLine("Checking last price...");
 
-                Thread.Sleep(300000);
-                await _gateService.SellOrder(ticker, amountToSell);
-                Console.WriteLine("Successfully Sold Order at " + DateTime.UtcNow);
+                    var didSell = await _gateService.AttemptSellOrder(ticker, Convert.ToDouble(orderResult.Amount), Convert.ToDouble(orderResult.Price));
+                    if (!didSell) continue;
+
+                    Console.WriteLine("Successfully Sold Order at " + DateTime.UtcNow);
+                    break;
+                }
             }
    
             isAlreadyBuying = false;
