@@ -103,7 +103,6 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private async Task PollKuCoinApi()
         {
-            Console.WriteLine("Polling KuCoin API...");
             var coinListing = _scraperService.GetLatestKuCoinListing();
 
             if (coinListings.TryGetValue(coinListing.Ticker, out var duplicatedCoin))
@@ -125,7 +124,6 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private async Task PollBinanceApi()
         {
-            Console.WriteLine("Polling Binance API...");
             var coinListing = await _scraperService.GetLatestBinanceArticle();
 
             if (coinListing == null) //Article did not contain a coin, continue to poll
