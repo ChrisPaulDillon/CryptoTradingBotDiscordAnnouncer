@@ -45,7 +45,7 @@ namespace CoinListingScraper.GateIOService
                 var userBalance = await _walletApi.GetTotalBalanceAsync();
                 var orderBook = await _spotApi.ListTickersAsync(tokenPair);
 
-                var lastPrice = Convert.ToDouble(orderBook[0].Last) * 1.005; //Ensure coin is actually bought by buying slightly over the last price
+                var lastPrice = Convert.ToDouble(orderBook[0].Last) * 1.001; //Ensure coin is actually bought by buying slightly over the last price
 
                 var amountToBuy = RoundDown((Convert.ToDouble(userBalance.Total.Amount) - 5) / lastPrice, 2);
 
@@ -75,18 +75,12 @@ namespace CoinListingScraper.GateIOService
                 var tokenPair = $"{tokenTicker}_USDT";
 
                 var orderBook = await _spotApi.ListTickersAsync(tokenPair);
-                var lastPrice = Convert.ToDouble(orderBook[0].Last); 
-
-                if (lastPrice < boughtPrice) //we fucked it, don't a sell
-                {
-                    Console.WriteLine($"Current price {lastPrice} is lower than bought price at {boughtPrice}, not selling");
-                    return false;
-                }
+                var lastPrice = Convert.ToDouble(orderBook[0].Last);
 
                 var howMuchIncreased = (lastPrice - boughtPrice) / boughtPrice * 100;
                 if (howMuchIncreased < 10) //Coin is not currently above 10% of what we bought, don't buy it
                 {
-                    Console.WriteLine($"Current price is {howMuchIncreased}% the original buying price, do not sell");
+                    Console.WriteLine($"Current price is {howMuchIncreased}% below the original buying price, do not sell");
                 }
 
                 var amountToSellUpdated = amountToSell * 0.997; //Temporary until just read wallet balance of token

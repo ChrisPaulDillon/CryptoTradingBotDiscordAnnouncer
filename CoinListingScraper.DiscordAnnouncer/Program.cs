@@ -61,6 +61,8 @@ namespace CoinListingScraper.DiscordAnnouncer
             Console.WriteLine("Discord Bot now online");
             Console.WriteLine("Polling every 580 ms");
 
+            await BuyAndSellCrypto("CHESS", _binanceConfig);
+
             //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
             var timer = new Timer(TimeSpan.FromMilliseconds(580).TotalMilliseconds);
             timer.AutoReset = true;
