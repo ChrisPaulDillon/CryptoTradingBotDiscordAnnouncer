@@ -59,10 +59,10 @@ namespace CoinListingScraper.DiscordAnnouncer
             await _discordService.StartBotAsync();
 
             Console.WriteLine("Discord Bot now online");
-            Console.WriteLine("Polling every 600 ms");
+            Console.WriteLine("Polling every 30000 ms (half second)");
 
             //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
-            var timer = new Timer(TimeSpan.FromMilliseconds(600).TotalMilliseconds);
+            var timer = new Timer(TimeSpan.FromMilliseconds(30000).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
@@ -94,6 +94,7 @@ namespace CoinListingScraper.DiscordAnnouncer
                 }
             }
    
+            Console.WriteLine("Continuing to poll...");
             isAlreadyBuying = false;
         }
 
