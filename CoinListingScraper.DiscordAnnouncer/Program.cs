@@ -130,13 +130,13 @@ namespace CoinListingScraper.DiscordAnnouncer
                 return;
             }
 
+            coinListings.Add(coinListing.Ticker, coinListing);
+            JsonHelper.WriteCoinToJsonFile(coinListings);
+
             var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
 
             await BuyAndSellCrypto(coinListing.Ticker, _kuCoinConfig);
-
-            coinListings.Add(coinListing.Ticker, coinListing);
-            JsonHelper.WriteCoinToJsonFile(coinListings);
 
             await _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
@@ -156,15 +156,15 @@ namespace CoinListingScraper.DiscordAnnouncer
                 return;
             }
 
+            coinListings.Add(coinListing.Ticker, coinListing);
+            JsonHelper.WriteCoinToJsonFile(coinListings);
+
             var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
 
             await BuyAndSellCrypto(coinListing.Ticker, _binanceConfig);
 
             await _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
-
-            coinListings.Add(coinListing.Ticker, coinListing);
-            JsonHelper.WriteCoinToJsonFile(coinListings);
         }
 
         private async Task PollCoinBaseApi()
