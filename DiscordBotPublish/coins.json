@@ -33,5 +33,10 @@
     "ArticleTitle": null,
     "Name": "BakeryToken",
     "Ticker": "BAKE"
+  },
+  "MONI": {
+    "ArticleTitle": null,
+    "Name": "Monsta Infinite",
+    "Ticker": "MONI"
   }
 }
