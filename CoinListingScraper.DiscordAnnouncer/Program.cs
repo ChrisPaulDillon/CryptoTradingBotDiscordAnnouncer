@@ -59,10 +59,10 @@ namespace CoinListingScraper.DiscordAnnouncer
             await _discordService.StartBotAsync();
 
             Console.WriteLine("Discord Bot now online");
-            Console.WriteLine("Polling every 1000 ms (half second)");
+            Console.WriteLine("Polling every 5 seconds");
 
             //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
-            var timer = new Timer(TimeSpan.FromMilliseconds(1000).TotalMilliseconds);
+            var timer = new Timer(TimeSpan.FromMilliseconds(5 * 1000).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
@@ -136,10 +136,9 @@ namespace CoinListingScraper.DiscordAnnouncer
             var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
 
+            _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
+
             await BuyAndSellCrypto(coinListing.Ticker, _kuCoinConfig);
-
-            await _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
-
         }
 
         private async Task PollBinanceApi()
@@ -162,9 +161,9 @@ namespace CoinListingScraper.DiscordAnnouncer
             var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
             Console.WriteLine(msg);
 
-            await BuyAndSellCrypto(coinListing.Ticker, _binanceConfig);
+            _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
-            await _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
+            await BuyAndSellCrypto(coinListing.Ticker, _binanceConfig);
         }
 
         private async Task PollCoinBaseApi()
