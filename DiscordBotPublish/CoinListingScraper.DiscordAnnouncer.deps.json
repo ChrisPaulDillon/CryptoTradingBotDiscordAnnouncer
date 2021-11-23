@@ -9,6 +9,7 @@
       "CoinListingScraper.DiscordAnnouncer/1.0.0": {
         "dependencies": {
           "ChrisDillon.SharedLibraries.SmsService": "1.10.31",
+          "CoinListingScraper.ConsoleWriterService": "1.0.0",
           "CoinListingScraper.GateIOService": "1.0.0",
           "CoinListingScraper.KuCoinService": "1.0.0",
           "CoinListingScraper.ScraperService": "1.0.0",
@@ -1012,6 +1013,11 @@
           "CoinListingScraper.CoinGecko.dll": {}
         }
       },
+      "CoinListingScraper.ConsoleWriterService/1.0.0": {
+        "runtime": {
+          "CoinListingScraper.ConsoleWriterService.dll": {}
+        }
+      },
       "CoinListingScraper.Data/1.0.0": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.1"
@@ -1022,6 +1028,7 @@
       },
       "CoinListingScraper.GateIOService/1.0.0": {
         "dependencies": {
+          "CoinListingScraper.ConsoleWriterService": "1.0.0",
           "Io.Gate.GateApi": "4.22.3",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0"
         },
@@ -1041,6 +1048,7 @@
       "CoinListingScraper.ScraperService/1.0.0": {
         "dependencies": {
           "CoinListingScraper.CoinGecko": "1.0.0",
+          "CoinListingScraper.ConsoleWriterService": "1.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
           "RestSharp": "106.13.0",
           "System.ServiceModel.Syndication": "6.0.0"
@@ -1779,6 +1787,11 @@
       "hashPath": "twilio.5.53.0.nupkg.sha512"
     },
     "CoinListingScraper.CoinGecko/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CoinListingScraper.ConsoleWriterService/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
