@@ -34,6 +34,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         public async Task Startup()
         {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Loading up...");
             coinListings = JsonHelper.LoadPreviouslyFoundCoins();
 
@@ -133,8 +134,11 @@ namespace CoinListingScraper.DiscordAnnouncer
             coinListings.Add(coinListing.Ticker, coinListing);
             JsonHelper.WriteCoinToJsonFile(coinListings);
 
-            var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})!";
-            Console.WriteLine(msg);
+            var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})";
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(msg + " at {DateTime.UtcNow}!");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
 
             _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
@@ -158,8 +162,10 @@ namespace CoinListingScraper.DiscordAnnouncer
             coinListings.Add(coinListing.Ticker, coinListing);
             JsonHelper.WriteCoinToJsonFile(coinListings);
 
-            var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}!" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})!";
-            Console.WriteLine(msg);
+            var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})";
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(msg + $" at {DateTime.UtcNow}!");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
 
             _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
@@ -183,8 +189,12 @@ namespace CoinListingScraper.DiscordAnnouncer
 
                 JsonHelper.WriteCoinToJsonFile(coinListings);
 
-                var msg = $"CoinBase will list {coinListing.Ticker}!";
-                Console.WriteLine(msg);
+                var msg = $"CoinBase will list {coinListing.Ticker}";
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(msg + $" at {DateTime.UtcNow}!");
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+
                 await _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
                 //await BuyAndSellCrypto(coinListing.Ticker);
