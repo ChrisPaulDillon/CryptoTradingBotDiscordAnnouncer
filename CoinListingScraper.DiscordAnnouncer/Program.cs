@@ -63,10 +63,10 @@ namespace CoinListingScraper.DiscordAnnouncer
             await _discordService.StartBotAsync();
 
             ConsoleWriter.WriteLine("Discord Bot now online");
-            ConsoleWriter.WriteLine("Polling every 5 seconds");
+            ConsoleWriter.WriteLine("Polling every 20 seconds");
 
             //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
-            var timer = new Timer(TimeSpan.FromMilliseconds(30 * 1000).TotalMilliseconds);
+            var timer = new Timer(TimeSpan.FromMilliseconds(20 * 1000).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
@@ -139,7 +139,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
             var msg = $"KuCoin will list {coinListing.Name} ({coinListing.Ticker})";
 
-            ConsoleWriter.WriteLine(msg + " at {DateTime.UtcNow}!");
+            ConsoleWriter.WriteLineCustom(msg + $" at {DateTime.UtcNow}!", ConsoleColor.White);
 
             _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
@@ -165,7 +165,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
             var msg = coinListing?.Ticker == null ? $"Binance will list {coinListing.Name}" : $"Binance will list {coinListing.Name} ({coinListing.Ticker})";
 
-            ConsoleWriter.WriteLine(msg + $" at {DateTime.UtcNow}!");
+            ConsoleWriter.WriteLineCustom(msg + $" at {DateTime.UtcNow}!", ConsoleColor.White);
 
             _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
@@ -190,7 +190,7 @@ namespace CoinListingScraper.DiscordAnnouncer
                 JsonHelper.WriteCoinToJsonFile(coinListings);
 
                 var msg = $"CoinBase will list {coinListing.Ticker}";
-                ConsoleWriter.WriteLine(msg + $" at {DateTime.UtcNow}!");
+                ConsoleWriter.WriteLineCustom(msg + $" at {DateTime.UtcNow}!", ConsoleColor.White);
 
                 _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 

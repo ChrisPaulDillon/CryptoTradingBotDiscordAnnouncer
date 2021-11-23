@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CoinListingScraper.ConsoleWriterService;
 using Io.Gate.GateApi.Api;
 using Io.Gate.GateApi.Client;
 using Io.Gate.GateApi.Model;
@@ -49,16 +50,18 @@ namespace CoinListingScraper.GateIOService
 
                 var amountToBuy = RoundDown((Convert.ToDouble(userBalance.Total.Amount) - 5) / lastPrice, 2);
 
-                Console.WriteLine($"User Balance : {userBalance.Total.Amount}");
-                Console.WriteLine($"Last Price : ${orderBook[0].Last}");
-                Console.WriteLine($"Buying Price: ${lastPrice}");
-                Console.WriteLine($"Amount of {tokenTicker} to buy: " + amountToBuy);
+                ConsoleWriter.WriteLine("");
+                ConsoleWriter.WriteLinePositive($"User Balance : ${userBalance.Total.Amount}");
+                ConsoleWriter.WriteLinePositive($"Last Price : ${orderBook[0].Last}");
+                ConsoleWriter.WriteLinePositive($"Buying Price: ${lastPrice}");
+                ConsoleWriter.WriteLinePositive($"Amount of {tokenTicker} to buy: " + amountToBuy);
 
                 var order = new Order(null, tokenPair, Order.TypeEnum.Limit, Order.AccountEnum.Spot, Order.SideEnum.Buy, amountToBuy.ToString(), lastPrice.ToString());
 
                 var createdOrder = await _spotApi.CreateOrderAsync(order);
-                Console.WriteLine($"Created order Amount of token : {createdOrder.Amount}");
-                Console.WriteLine($"Bought {tokenTicker} at : ${createdOrder.Price}" );
+                ConsoleWriter.WriteLine("");
+                ConsoleWriter.WriteLinePositive($"Created order Amount of token : {createdOrder.Amount}");
+                ConsoleWriter.WriteLinePositive($"Attempting to buy {tokenTicker} at : ${createdOrder.Price}" );
 
                 return createdOrder;
             }
@@ -72,6 +75,8 @@ namespace CoinListingScraper.GateIOService
         {
             try
             {
+                ConsoleWriter.WriteLine("");
+
                 var tokenPair = $"{tokenTicker}_USDT";
 
                 var orderBook = await _spotApi.ListTickersAsync(tokenPair);
@@ -80,14 +85,14 @@ namespace CoinListingScraper.GateIOService
                 var howMuchIncreased = (lastPrice - boughtPrice) / boughtPrice * 100;
                 if (howMuchIncreased < 10) //Coin is not currently above 10% of what we bought, don't buy it
                 {
-                    Console.WriteLine($"Current price (${lastPrice}) is {howMuchIncreased}% relative to the original buying price, do not sell");
+                    ConsoleWriter.WriteLineNegative($"Current price (${lastPrice}) is {RoundDown(howMuchIncreased, 2)}% relative to the original buying price, do not sell");
                     return false;
                 }
 
                 var amountToSellUpdated = amountToSell * 0.997; //Temporary until just read wallet balance of token
 
-                Console.WriteLine("Amount to sell: " + amountToSellUpdated);
-                Console.WriteLine("Selling at Price: " + lastPrice);
+                ConsoleWriter.WriteLineNegative($"Amount of {tokenTicker} to sell: " + amountToSellUpdated);
+                ConsoleWriter.WriteLineNegative("Selling at Price: $" + lastPrice);
 
                 var priceToSell = lastPrice * 0.999; //Sell slightly lower than last price to ensure the sale
                 var order = new Order(null, tokenPair, Order.TypeEnum.Limit, Order.AccountEnum.Spot, Order.SideEnum.Sell, amountToSellUpdated.ToString(), priceToSell.ToString());
