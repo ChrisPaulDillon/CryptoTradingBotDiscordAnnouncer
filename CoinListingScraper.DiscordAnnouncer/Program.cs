@@ -115,7 +115,7 @@ namespace CoinListingScraper.DiscordAnnouncer
             }
             catch (Exception ex)
             {
-                ConsoleWriter.WriteLine(ex.Message);
+                ConsoleWriter.WriteLineNegative(ex.Message);
             }
 
         }
