@@ -66,7 +66,7 @@ namespace CoinListingScraper.DiscordAnnouncer
             ConsoleWriter.WriteLine("Polling every 20 seconds");
 
             //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
-            var timer = new Timer(TimeSpan.FromMilliseconds(20 * 1000).TotalMilliseconds);
+            var timer = new Timer(TimeSpan.FromMilliseconds(15 * 1000).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;
             timer.Start();
@@ -79,6 +79,11 @@ namespace CoinListingScraper.DiscordAnnouncer
             isAlreadyBuying = true;
             ConsoleWriter.WriteLine($"Attempting to Place Order for {ticker} at {config.ExchangeName}...");
             var orderResult = await _gateService.PlaceOrder(ticker);
+
+            if (orderResult == null)
+            {
+                return;
+            }
 
             ConsoleWriter.WriteLine("Order Successfully Placed at " + DateTime.UtcNow);
             Thread.Sleep(30000); //sleep an additional 30 seconds to ensure order has been filled before proceeding

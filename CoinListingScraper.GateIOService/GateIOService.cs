@@ -43,15 +43,23 @@ namespace CoinListingScraper.GateIOService
             {
                 var tokenPair = $"{tokenTicker}_USDT";
                 var currencyPair = await _spotApi.GetCurrencyPairAsync(tokenPair);
-                var userBalance = await _walletApi.GetTotalBalanceAsync();
+                var userTotalBalance = await _walletApi.GetTotalBalanceAsync();
                 var orderBook = await _spotApi.ListTickersAsync(tokenPair);
+
+                var userBalance = Convert.ToDouble(userTotalBalance.Total.Amount);
+
+                if(userBalance < 5)
+                {
+                    ConsoleWriter.WriteLineNegative("User balance is too low, will not buy");
+                    return null;
+                }
 
                 var lastPrice = Convert.ToDouble(orderBook[0].Last) * 1.001; //Ensure coin is actually bought by buying slightly over the last price
 
-                var amountToBuy = RoundDown((Convert.ToDouble(userBalance.Total.Amount) - 5) / lastPrice, 2);
+                var amountToBuy = RoundDown((Convert.ToDouble(userBalance) - 5) / lastPrice, 2);
 
                 ConsoleWriter.WriteLine("");
-                ConsoleWriter.WriteLinePositive($"User Balance : ${userBalance.Total.Amount}");
+                ConsoleWriter.WriteLinePositive($"User Balance : ${userBalance}");
                 ConsoleWriter.WriteLinePositive($"Last Price : ${orderBook[0].Last}");
                 ConsoleWriter.WriteLinePositive($"Buying Price: ${lastPrice}");
                 ConsoleWriter.WriteLinePositive($"Amount of {tokenTicker} to buy: " + amountToBuy);
