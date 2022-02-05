@@ -18,20 +18,18 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         public static IDictionary<string, CoinListing> LoadPreviouslyFoundCoins()
         {
-            try
+            if (File.Exists(coinPath))
             {
-                using (StreamReader r = new StreamReader(coinPath))
-                {
+                 using (StreamReader r = new StreamReader(coinPath))
+                 {
                     string json = r.ReadToEnd();
                     var coinListings = JsonSerializer.Deserialize<Dictionary<string, CoinListing>>(json);
                     return coinListings;
-                }
+                 }
             }
-            catch
-            {
-                Console.WriteLine("No coin file currently exists lmao");
-                return new Dictionary<string, CoinListing>();
-            }
+
+           Console.WriteLine("No coin file currently exists lmao");
+           return new Dictionary<string, CoinListing>();
         }
     }
 }
