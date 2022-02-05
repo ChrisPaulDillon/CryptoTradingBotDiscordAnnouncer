@@ -68,6 +68,8 @@ namespace CoinListingScraper.DiscordAnnouncer
             timer.Start();
             Console.ReadLine();
             timer.Dispose();
+
+            await Task.Run(() => Thread.Sleep(Timeout.Infinite));
         }
 
         private async Task BuyAndSellCrypto(string ticker, ExchangeActionConfig config) //new coin has been found, execute buy/sell
