@@ -121,6 +121,7 @@ namespace CoinListingScraper.DiscordAnnouncer
             catch (Exception ex)
             {
                 ConsoleWriter.WriteLineNegative(ex.Message);
+                throw ex;
             }
 
         }
@@ -148,7 +149,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
             _discordService.Announce(msg); //There is no need for buying/selling to wait for the discord action
 
-            await BuyAndSellCrypto(coinListing.Ticker, _kuCoinConfig);
+            //await BuyAndSellCrypto(coinListing.Ticker, _kuCoinConfig);
         }
 
         private async Task PollBinanceApi()
