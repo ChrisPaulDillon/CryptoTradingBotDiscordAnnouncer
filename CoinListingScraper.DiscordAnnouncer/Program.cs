@@ -6,7 +6,6 @@ using System.Timers;
 using CoinListingScraper.ConsoleWriterService;
 using CoinListingScraper.DiscordAnnouncer.Models;
 using CoinListingScraper.GateIOService;
-using CoinListingScraper.KuCoinService;
 using CoinListingScraper.ScraperService;
 using CoinListingScraper.ScraperService.Models;
 using CoinListingScraper.ScraperService.Services;
@@ -28,7 +27,6 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private IScraperService _scraperService;
 
-        private IKuCoinService _kuCoinService;
         private IGateIoService _gateService;
 
         private bool isAlreadyBuying = false;
@@ -51,12 +49,10 @@ namespace CoinListingScraper.DiscordAnnouncer
             var serviceProvider = new ServiceCollection()
                 .AddScraperServices()
                 .AddGateIoServices()
-                .AddKuCoinServices()
                 //.AddSmsServices("test", "")
                 .BuildServiceProvider();
 
             _scraperService = serviceProvider.GetService<IScraperService>();
-            _kuCoinService = serviceProvider.GetService<IKuCoinService>();
             _gateService = serviceProvider.GetService<IGateIoService>();
 
             _discordService = new DiscordHelper();
