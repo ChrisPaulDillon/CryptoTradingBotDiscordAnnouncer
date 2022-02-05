@@ -40,7 +40,7 @@ namespace CoinListingScraper.DiscordAnnouncer
             coinListings = JsonHelper.LoadPreviouslyFoundCoins();
 
             var builder = new ConfigurationBuilder()
-                .AddUserSecrets<Config>()
+                .AddUserSecrets<Config>(optional: true)
                 .AddEnvironmentVariables();
 
             var configuration = builder.Build();
