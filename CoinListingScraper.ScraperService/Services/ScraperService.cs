@@ -15,7 +15,7 @@ namespace CoinListingScraper.ScraperService.Services
     public class ScraperService : IScraperService
     {
         private const string BinanceApiBase = "https://www.binance.com/bapi/";
-        private const string CoinBaseApiBase = "https://medium.com/_/api/";
+        private const string CoinBaseApi = "https://medium.com/_/api/collections/c114225aeaf7/latest";
 
         private RestClient _client = new RestClient(BinanceApiBase);
 
@@ -23,7 +23,7 @@ namespace CoinListingScraper.ScraperService.Services
         {
             Console.WriteLine("Calling GetLatestCoinBaseArticle()");
             var client = new WebClient();
-            var downloadString = client.DownloadString("https://medium.com/_/api/collections/c114225aeaf7/latest");
+            var downloadString = client.DownloadString(CoinBaseApi);
 
             var result = downloadString.Split()
                 .Where(x => x.StartsWith("(") && x.EndsWith(")") && x.ToUpper() == x)

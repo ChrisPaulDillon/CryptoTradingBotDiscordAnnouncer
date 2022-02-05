@@ -111,7 +111,7 @@ namespace CoinListingScraper.DiscordAnnouncer
 
                 await PollKuCoinApi();
                 await PollBinanceApi(); 
-                await PollCoinBaseApi();
+                //await PollCoinBaseApi();
 
             }
             catch (Exception ex)
