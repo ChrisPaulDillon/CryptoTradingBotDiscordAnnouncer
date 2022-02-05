@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CoinListingScraper.ConsoleWriterService\CoinListingScraper.ConsoleWriterService.csproj" />
     <ProjectReference Include="..\CoinListingScraper.GateIOService\CoinListingScraper.GateIOService.csproj" />
-    <ProjectReference Include="..\CoinListingScraper.KuCoinService\CoinListingScraper.KuCoinService.csproj" />
     <ProjectReference Include="..\CoinListingScraper.ScraperService\CoinListingScraper.ScraperService.csproj" />
   </ItemGroup>
 
