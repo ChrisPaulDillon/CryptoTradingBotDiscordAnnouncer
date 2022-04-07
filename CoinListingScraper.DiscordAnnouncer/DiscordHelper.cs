@@ -14,12 +14,13 @@ namespace CoinListingScraper.DiscordAnnouncer
         private CommandService _commands;
         private IServiceProvider _services;
 
-        private readonly ulong discordChannelId = 910570370719948810;
-        private readonly string discordTokenId = "OTAzMDQ2MTQxNDgwOTM1NDg3.YXnRQQ.zf6JpHTrXHbg7qWRSzIg5K5Pb7I";
+        private ulong discordChannelId;
+        private string discordTokenId;
 
-        public DiscordHelper()
+        public DiscordHelper(ulong DiscordChannelId, string DiscordTokenId)
         {
-   
+            discordChannelId = DiscordChannelId;
+            discordTokenId = DiscordTokenId;    
         }
 
         public async Task<DiscordSocketClient> StartBotAsync()
@@ -31,8 +32,6 @@ namespace CoinListingScraper.DiscordAnnouncer
                 .AddSingleton(_client)
                 .AddSingleton(_commands)
                 .BuildServiceProvider();
-
-            //_client.Log += _client_Log;
 
             await RegisterCommandsAsync();
 

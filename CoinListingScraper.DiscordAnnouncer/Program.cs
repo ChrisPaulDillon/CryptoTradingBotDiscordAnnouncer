@@ -32,11 +32,14 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private bool isAlreadyBuying = false;
 
+        private readonly ulong DISCORD_CHANNEL_ID = 910570370719948810;
+        private readonly string DISCORD_TOKEN_ID = "OTAzMDQ2MTQxNDgwOTM1NDg3.YXnRQQ.zf6JpHTrXHbg7qWRSzIg5K5Pb7I";
+
+
         static void Main(string[] args) => new Program().Startup().GetAwaiter().GetResult();
 
         public async Task Startup()
         {
-            
             ConsoleWriter.WriteLine("Loading up...");
             coinListings = JsonHelper.LoadPreviouslyFoundCoins();
 
@@ -54,7 +57,7 @@ namespace CoinListingScraper.DiscordAnnouncer
             _scraperService = serviceProvider.GetService<IScraperService>();
             _gateService = serviceProvider.GetService<IGateIoService>();
 
-            _discordService = new DiscordHelper();
+            _discordService = new DiscordHelper(DISCORD_CHANNEL_ID, DISCORD_TOKEN_ID);
             await _discordService.StartBotAsync();
 
             ConsoleWriter.WriteLine("Discord Bot now online");
