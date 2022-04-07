@@ -32,8 +32,8 @@ namespace CoinListingScraper.DiscordAnnouncer
 
         private bool isAlreadyBuying = false;
 
-        private readonly ulong DISCORD_CHANNEL_ID = 910570370719948810;
-        private readonly string DISCORD_TOKEN_ID = "OTAzMDQ2MTQxNDgwOTM1NDg3.YXnRQQ.zf6JpHTrXHbg7qWRSzIg5K5Pb7I";
+        private readonly ulong DISCORD_CHANNEL_ID;
+        private readonly string DISCORD_TOKEN_ID;
 
 
         static void Main(string[] args) => new Program().Startup().GetAwaiter().GetResult();
