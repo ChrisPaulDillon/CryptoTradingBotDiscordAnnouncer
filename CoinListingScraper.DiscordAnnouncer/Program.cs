@@ -21,7 +21,8 @@ namespace CoinListingScraper.DiscordAnnouncer
         private readonly ExchangeActionConfig _binanceConfig = new ExchangeActionConfig("Binance");
         private readonly ExchangeActionConfig _coinbaseConfig = new ExchangeActionConfig("Coinbase");
 
-        private static IDictionary<string, CoinListing> coinListings = new Dictionary<string, CoinListing>(); //Store a collection of coinListings in memory to prevent additional write operations
+        //Store a collection of coinListings in memory to prevent additional write operations
+        private static IDictionary<string, CoinListing> coinListings = new Dictionary<string, CoinListing>(); 
 
         private DiscordHelper _discordService;
 
@@ -44,12 +45,10 @@ namespace CoinListingScraper.DiscordAnnouncer
                 .AddEnvironmentVariables();
 
             var configuration = builder.Build();
-            var myConnString = configuration.GetConnectionString("TwilioSID");
 
             var serviceProvider = new ServiceCollection()
                 .AddScraperServices()
                 .AddGateIoServices()
-                //.AddSmsServices("test", "")
                 .BuildServiceProvider();
 
             _scraperService = serviceProvider.GetService<IScraperService>();
@@ -59,9 +58,8 @@ namespace CoinListingScraper.DiscordAnnouncer
             await _discordService.StartBotAsync();
 
             ConsoleWriter.WriteLine("Discord Bot now online");
-            ConsoleWriter.WriteLine("Polling every 20 seconds");
+            ConsoleWriter.WriteLine("Polling every 15 seconds");
 
-            //var timer = new Timer(TimeSpan.FromMinutes(05).TotalMilliseconds);
             var timer = new Timer(TimeSpan.FromMilliseconds(15 * 1000).TotalMilliseconds);
             timer.AutoReset = true;
             timer.Elapsed += TimerProc;

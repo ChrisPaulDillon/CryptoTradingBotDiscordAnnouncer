@@ -1,5 +1,4 @@
-﻿using CoinListingScraper.CoinGecko;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using CoinListingScraper.ScraperService.Models;
 

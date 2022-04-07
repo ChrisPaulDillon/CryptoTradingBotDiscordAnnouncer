@@ -70,8 +70,6 @@ namespace CoinListingScraper.ScraperService.Services
 
             var latestArticle = response.data.articles.FirstOrDefault().title;
 
-            Console.WriteLine(latestArticle);
-
             if (!latestArticle.Contains(" List "))
             {
                 return null;

@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoinListingScraper.CoinGecko\CoinListingScraper.CoinGecko.csproj" />
     <ProjectReference Include="..\CoinListingScraper.ConsoleWriterService\CoinListingScraper.ConsoleWriterService.csproj" />
   </ItemGroup>
 

@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinListingScraper.API", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinListingScraper.Data", "CoinListingScraper.Data\CoinListingScraper.Data.csproj", "{11FFD760-0E22-4D13-9352-63689EBE7D62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinListingScraper.CoinGecko", "CoinListingScraper.CoinGecko\CoinListingScraper.CoinGecko.csproj", "{79FF0951-6492-431C-8A15-FF91B5ED1EB1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinListingScraper.Application", "CoinListingScraper.Application\CoinListingScraper.Application.csproj", "{645DEFB0-B42E-49E7-8ACB-4BECCADC265D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinListingScraper.UnitTests", "CoinListingScraper.UnitTests\CoinListingScraper.UnitTests.csproj", "{AEF40A29-25B9-45D5-A7FD-E5FD7DA18F08}"
@@ -35,10 +33,6 @@ Global
 		{11FFD760-0E22-4D13-9352-63689EBE7D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11FFD760-0E22-4D13-9352-63689EBE7D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11FFD760-0E22-4D13-9352-63689EBE7D62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79FF0951-6492-431C-8A15-FF91B5ED1EB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79FF0951-6492-431C-8A15-FF91B5ED1EB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79FF0951-6492-431C-8A15-FF91B5ED1EB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79FF0951-6492-431C-8A15-FF91B5ED1EB1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{645DEFB0-B42E-49E7-8ACB-4BECCADC265D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{645DEFB0-B42E-49E7-8ACB-4BECCADC265D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{645DEFB0-B42E-49E7-8ACB-4BECCADC265D}.Release|Any CPU.ActiveCfg = Release|Any CPU

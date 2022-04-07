@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -22,7 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CoinListingScraper.API\CoinListingScraper.API.csproj" />
     <ProjectReference Include="..\CoinListingScraper.Application\CoinListingScraper.Application.csproj" />
-    <ProjectReference Include="..\CoinListingScraper.CoinGecko\CoinListingScraper.CoinGecko.csproj" />
     <ProjectReference Include="..\CoinListingScraper.Data\CoinListingScraper.Data.csproj" />
     <ProjectReference Include="..\CoinListingScraper.ScraperService\CoinListingScraper.ScraperService.csproj" />
   </ItemGroup>
