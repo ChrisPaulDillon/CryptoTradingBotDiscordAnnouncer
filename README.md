@@ -13,3 +13,5 @@ DISCORD_CHANNEL_ID, DISCORD_TOKEN_ID, GATE_IO_SECRET, GATE_IO_KEY
 To run the bot, right click the CoinListingScraper.DiscordAnnouncer > Debug > Start New Instance
 
 I will no longer be maintaining this project, feel free to fork and create your own custom implementation.
+
+![Discord Bot](https://chrispauldillon.com/images/portfolio/discordbot.png)
